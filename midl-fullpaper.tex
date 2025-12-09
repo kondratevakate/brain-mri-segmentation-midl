@@ -6,6 +6,7 @@
 % make sure they are installed with your latex distribution
 
 \usepackage{mwe} % to get dummy images
+\usepackage{booktabs} 
 \jmlrvolume{-- Under Review}
 \jmlryear{2026}
 \jmlrworkshop{Full Paper -- MIDL 2026 submission}
@@ -43,11 +44,12 @@
 %\footnotetext[1]{Contributed equally}
 
 % More complicate cases, e.g. with dual affiliations and joint authorship
-\midlauthor{\Name{Ekaterina Kondrateva\nametag{$^{1}$}}\orcid{0000-0003-3623-6106} \Email{ekaterina.kondrateva@maastrichtuniversity.nl}\\
-\addr $^{1}$ Maastricht University (UM)\\
+\midlauthor{\Name{Ekaterina Kondrateva\nametag{$^{1,2}$}}\orcid{0000-0003-3623-6106} \Email{ekaterina.kondrateva@maastrichtuniversity.nl}\\
+\addr $^{1,2}$ Maastricht University (UM), atleic.ai\\
 \AND
-\Name{Sandzhi Barg\nametag{$^{2}$}}\orcid{0009-0002-6498-0282} \\
-\addr $^{2}$ Higher School of Economics (HSE)\\}
+\Name{Sandzhi Barg\nametag{$^{3}$}}\orcid{0009-0002-6498-0282} \\
+\addr $^{3}$ Higher School of Economics (HSE)\\}
+
 
 \begin{document}
 
@@ -272,12 +274,93 @@ Table~\ref{tab:segmentation_subcortical_full} compares FreeSurfer and FastSurfer
 }
 \end{table*}
 
+
+
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\columnwidth]{images/output1.png}
+    \caption{SIMON dataset: Volume trajectories of Amygdala and Hippocampus over time for 73 MRI scans in 17 years for one healthy individual using SynthSeg. Confidence intervals and regression trends are shown.}
+    \label{fig:synthseg_regression}
+\end{figure}
+
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\columnwidth]{images/output2.png}
+    \caption{SIMON dataset: Comparison of volume distributions from FastSurfer and SynthSeg for Amygdala and Hippocampus, y-axis denotes volume in cm³.}
+    \label{fig:simon_comparison_boxplot}
+\end{figure}
+
+
+\begin{figure*}[h]
+        		\centering
+        		%\includegraphics[width=0.7\linewidth, height=.3\textheight]{images/consecutive_fs8_SIMON_percentage_vol_diff.pdf}
+                \includegraphics[width=\textwidth]{images/consecutive_fs8_SIMON_percentage_vol_diff.pdf}
+        		\caption{Inter-scanner variability of cortical volumes in the SIMON dataset. Boxplots show DICE and Surface DICE metrics between consecutive scans, grouped by hemisphere. }
+        	\end{figure*}
+
+
+            \begin{figure*}[h]
+    		\centering
+    		%\includegraphics[width=0.6\linewidth, height=.2\textheight]{latex/vox.jpg}
+            \includegraphics[width=\textwidth]{images/cortical_all_sub_session_metrics_dice_surface_dice.pdf}
+    		\caption{Inter-scanner variability of cortical volumes in the SIMON dataset. Boxplots show the percentage difference from the structure-specific mean across repeated sessions, grouped by hemisphere. }
+
+    	\end{figure*}
+
+            \begin{figure*}[h]
+        		\centering
+        		% \includegraphics[width=0.6\linewidth, height=.2\textheight]{images/consecutive_fs8_SIMON_dice_surface_dice.pdf}
+                \includegraphics[width=\textwidth]{images/consecutive_fs8_SIMON_dice_surface_dice.pdf}
+        		\caption{Dice and Surface Dice coefficient distributions across cortical regions in the left and right hemispheres of the SIMON dataset using SynthSeg. Each structure is evaluated over multiple longitudinal scans from the same individual. Surface Dice (white boxes) consistently exceeds traditional Dice (gray boxes), especially in regions with complex geometry such as the entorhinal cortex and insula.}
+
+        	\end{figure*}
+            
+
+
+          
+
+\begin{table*}[htbp]  
+\centering  
+\resizebox{\textwidth}{!}{%  
+\begin{tabular}{l|cc|cc|cc|cc|cc|cc|cc|cc}  
+\hline  
+\multirow{2}{*}{Metric} & \multicolumn{2}{c|}{Accumbens} & \multicolumn{2}{c|}{Amygdala} & \multicolumn{2}{c|}{Caudate} & \multicolumn{2}{c|}{Hippocampus} & \multicolumn{2}{c|}{Pallidum} & \multicolumn{2}{c|}{Putamen} & \multicolumn{2}{c|}{Thalamus} & \multicolumn{2}{c}{Ventral DC} \\
+ & SRPBS & SIMON & SRPBS & SIMON & SRPBS & SIMON & SRPBS & SIMON & SRPBS & SIMON & SRPBS & SIMON & SRPBS & SIMON & SRPBS & SIMON \\
+\hline  
+Volume diff (cm³)   & 0.046 & 0.030 & 0.102 & 0.076 & 0.119 & 0.098 & 0.207 & 0.125 & 0.102 & 0.095 & 0.206 & 0.136 & 0.450 & 0.374 & 0.219 & 0.141 \\
+Dice                & 0.677 & 0.803 & 0.790 & 0.858 & 0.802 & 0.868 & 0.782 & 0.850 & 0.789 & 0.850 & 0.848 & 0.897 & 0.868 & 0.909 & 0.806 & 0.858 \\
+Surface Dice        & 0.849 & 0.965 & 0.840 & 0.961 & 0.868 & 0.972 & 0.845 & 0.964 & 0.843 & 0.958 & 0.870 & 0.969 & 0.820 & 0.947 & 0.873 & 0.959 \\
+HD95 (mm)           & 1.735 & 1.228 & 1.697 & 1.263 & 1.584 & 1.200 & 1.830 & 1.234 & 1.675 & 1.271 & 1.582 & 1.210 & 1.828 & 1.327 & 1.620 & 1.233 \\
+\hline  
+\end{tabular}%  
+}  
+\caption{Comparison of segmentation metrics between the SRPBS and SIMON datasets across subcortical structures. Volume difference is shown in $\text{cm}^3$, Dice and Surface Dice are unitless similarity scores, and HD95 represents the 95th percentile Hausdorff distance in millimeters.}  
+\label{tab:subcortical_comparison}  
+\end{table*}
+
+
 \subsection{Comparison of Distance Metrics Across Datasets}
 
 Volume differences (in cm³) were consistently higher in SRPBS, reflecting greater domain variability due to inter-scanner effects. In contrast, SIMON—being a single-subject longitudinal dataset—showed lower volume deviations across repeated scans. Dice and Surface Dice scores were uniformly higher in SIMON, indicating improved overlap and surface-level agreement. For example, mean Dice scores for the caudate and putamen reached 0.868 and 0.897 in SIMON, compared to 0.802 and 0.848 in SRPBS. HD95 distances also decreased in SIMON (e.g., 1.234\,mm for hippocampus vs. 1.830\,mm in SRPBS), highlighting reduced boundary inconsistency. These results support the utility of repeated intra-subject data for evaluating segmentation consistency.
 
 \paragraph{Subcortical filtering based on segmentation quality.} 
 To assess the impact of quality-based filtering, we evaluated the proportion of subcortical structures removed using various thresholds on Dice and Surface Dice metrics. Applying a strict Surface Dice threshold of 0.92 filtered out only 5\% of regions, while retaining a low mean absolute percentage error (MAPE) across the remaining structures (2.8\% at 75th percentile, 8.6\% at 95th). Relaxing the threshold to 0.90 slightly reduced filtering (3.8\%) without degrading MAPE. In contrast, filtering with a traditional Dice threshold of 0.80 excluded more than half of all structures (52.8\%), yet retained comparable or worse error profiles. This supports the use of Surface Dice as a more efficient and precise filtering criterion for detecting outliers in automated segmentation pipelines.
+
+
+       \begin{table*}[h]
+        \centering
+        \caption{Percentage of subcortical regions filtered out using Dice and Surface Dice thresholds, with 75th and 95th percentile MAPE values across retained regions.}
+        \label{tab:filtering_subcortical}
+        \begin{tabular}{lccccc}
+        Filtering Metric & Threshold & Structures & \% Filtered & 75th (\% MAPE) & 95th (\%) \\
+        \hline
+        Surface Dice & 0.92 & Subcortical & 5.0 & 2.8 & 8.6 \\
+        Surface Dice & 0.90 & Subcortical & 3.8 & 2.8 & 8.8 \\
+        Dice         & 0.80 & Subcortical & 52.8 & 2.2 & 5.8 \\
+        \end{tabular}
+        \end{table*}
 
 \subsection{Registration}
 To compare surface-based metrics, rigid-body registration was applied using ANTs~\cite{Avants2011}. We tested two interpolation strategies: \texttt{nearestNeighbor} and \\ \texttt{genericLabel}; and two reference spaces: subject-native (first session) and standard MNI atlas. Interpolation mode affected mean volume estimates by up to 1.72\%, while template choice accounted for a smaller 0.07\% deviation.  
@@ -310,78 +393,53 @@ It has been shown that classical preprocessing techniques, such as intensity nor
 Both SRPBS and SIMON datasets lack manual annotations, preventing true accuracy assessment. We evaluated reproducibility under the assumption that anatomical structures remain stable in healthy subjects, but future work should include expert-labeled benchmarks for validation.
 
 
-\section*{CRediT authorship contribution statement}
-\noindent
-\textbf{Ekaterina Kondrateva}: Conceptualization, Methodology, Software, Formal analysis, Investigation, Writing – original draft, Writing – review \& editing. \\
-\textbf{Sandzhi Barg}: Software, Data curation, Validation, Visualization, Writing – original draft, Writing – review \& editing. \\
+% \section*{CRediT authorship contribution statement}
+% \noindent
+% \textbf{Ekaterina Kondrateva}: Conceptualization, Methodology, Software, Formal analysis, Investigation, Writing – original draft, Writing – review \& editing. \\
+% \textbf{Sandzhi Barg}: Software, Data curation, Validation, Visualization, Writing – original draft, Writing – review \& editing. \\
 
 
-This work was supported by our genuine enthusiasm and curiosity and our hope for a brighter future of objective mental health diagnosis.
 
-\section*{Declaration of Generative AI and AI-assisted technologies in the writing process}
-During the preparation of this work, the authors used ChatGPT-4 to improve the readability of this paper. After using this tool, the authors reviewed and edited the content as needed and take full responsibility for the content of the publication.
 
-\begin{table}[htbp]
- % The first argument is the label.
- % The caption goes in the second argument, and the table contents
- % go in the third argument.
-\floatconts
-  {tab:example}%
-  {\caption{An Example Table}}%
-  {\begin{tabular}{ll}
-  \bfseries Dataset & \bfseries Result\\
-  Data1 & 0.12345\\
-  Data2 & 0.67890\\
-  Data3 & 0.54321\\
-  Data4 & 0.09876
-  \end{tabular}}
-\end{table}
+% \section*{Declaration of Generative AI and AI-assisted technologies in the writing process}
+% During the preparation of this work, the authors used ChatGPT5 to improve the readability of this paper. After using this tool, the authors reviewed and edited the content as needed and take full responsibility for the content of the publication.
 
-\begin{figure}[htbp]
- % Caption and label go in the first argument and the figure contents
- % go in the second argument
-\floatconts
-  {fig:example}
-  {\caption{Example Image}}
-  {\includegraphics[width=0.5\linewidth]{example-image}}
-\end{figure}
+% \begin{table}[htbp]
+%  % The first argument is the label.
+%  % The caption goes in the second argument, and the table contents
+%  % go in the third argument.
+% \floatconts
+%   {tab:example}%
+%   {\caption{An Example Table}}%
+%   {\begin{tabular}{ll}
+%   \bfseries Dataset & \bfseries Result\\
+%   Data1 & 0.12345\\
+%   Data2 & 0.67890\\
+%   Data3 & 0.54321\\
+%   Data4 & 0.09876
+%   \end{tabular}}
+% \end{table}
 
-\begin{algorithm2e}
-\caption{Computing Net Activation}
-\label{alg:net}
- % older versions of algorithm2e have \dontprintsemicolon instead
- % of the following:
- %\DontPrintSemicolon
- % older versions of algorithm2e have \linesnumbered instead of the
- % following:
- %\LinesNumbered
-\KwIn{$x_1, \ldots, x_n, w_1, \ldots, w_n$}
-\KwOut{$y$, the net activation}
-$y\leftarrow 0$\;
-\For{$i\leftarrow 1$ \KwTo $n$}{
-  $y \leftarrow y + w_i*x_i$\;
-}
-\end{algorithm2e}
 
-\clearpage  % Acknowledgements, references, and appendix do not count toward the page limit (if any)
+% \clearpage  % Acknowledgements, references, and appendix do not count toward the page limit (if any)
 % Acknowledgments---Will not appear in anonymized version
-\midlacknowledgments{We thank a bunch of people.}
+\midlacknowledgments{This work was supported by our genuine enthusiasm and curiosity and our hope for a brighter future of objective mental health diagnosis.}
 
 
 \bibliography{midl-samplebibliography}
 
 
-\appendix
+% \appendix
 
-\section{Proof of Theorem 1}
+% \section{Proof of Theorem 1}
 
-This is a boring technical proof of
-\begin{equation}\label{eq:example}
-\cos^2\theta + \sin^2\theta \equiv 1.
-\end{equation}
+% This is a boring technical proof of
+% \begin{equation}\label{eq:example}
+% \cos^2\theta + \sin^2\theta \equiv 1.
+% \end{equation}
 
-\section{Proof of Theorem 2}
+% \section{Proof of Theorem 2}
 
-This is a complete version of a proof sketched in the main text.
+% This is a complete version of a proof sketched in the main text.
 
 \end{document}
