@@ -7,12 +7,13 @@
 
 \usepackage{mwe} % to get dummy images
 \usepackage{booktabs} 
+\usepackage{multirow}
 \jmlrvolume{-- Under Review}
 \jmlryear{2026}
 \jmlrworkshop{Full Paper -- MIDL 2026 submission}
 \editors{Under Review for MIDL 2026}
 
-\title[Brain MRI Segmentation Across Scanners]{Benchmarking the Reproducibility of Brain MRI Segmentation Across Scanners}
+\title[Benchmarking Brain Tissue Segmentation Across MRI Scanners]{Benchmarking the Reproducibility of Brain Tissue Segmentation Across MRI Scanners}
 
  % Use \Name{Author Name} to specify the name.
  % If the surname contains spaces, enclose the surname
@@ -44,11 +45,18 @@
 %\footnotetext[1]{Contributed equally}
 
 % More complicate cases, e.g. with dual affiliations and joint authorship
-\midlauthor{\Name{Ekaterina Kondrateva\nametag{$^{1,2}$}}\orcid{0000-0003-3623-6106} \Email{ekaterina.kondrateva@maastrichtuniversity.nl}\\
-\addr $^{1,2}$ Maastricht University (UM), atleic.ai\\
-\AND
-\Name{Sandzhi Barg\nametag{$^{3}$}}\orcid{0009-0002-6498-0282} \\
-\addr $^{3}$ Higher School of Economics (HSE)\\}
+\midlauthor{
+\Name{Ekaterina Kondrateva\nametag{$^{1,2}$}} \orcid{0000-0003-3623-6106} \Email{ekaterina.kondrateva@maastrichtuniversity.nl}\\
+\Name{Abdalla Z Mohamed\nametag{$^{3}$}} \orcid{0000-0003-4499-672X}\\
+\Name{Sandzhi Barg\nametag{$^{4}$}} \orcid{0009-0002-6498-0282}\\
+\Name{Florian Kofler\nametag{$^{5,6}$}} \orcid{0000-0003-0642-7884}\\
+\addr $^{1}$ Maastricht University (UM), The Netherlands\\
+\addr $^{2}$ Atelic LLC, UAE\\
+\addr $^{3}$ Department of Cognitive Sciences, College of Humanities and Social Sciences, United Arab Emirates University, UAE\\
+\addr $^{4}$ Higher School of Economics (HSE), Russia\\
+\addr $^{5}$ University of T\"ubingen, Germany\\
+\addr $^{6}$ Hertie Institute for AI in Brain Health, Germany
+}
 
 
 \begin{document}
@@ -56,11 +64,11 @@
 \maketitle
 
 \begin{abstract}
-Accurate and reproducible brain morphometry from structural MRI is critical for monitoring neuroanatomical changes across time and imaging domains. Although deep learning has accelerated segmentation workflows, scanner-induced variability and reproducibility limitations remain—particularly in longitudinal and multi-site settings. In this study, we benchmark two state-of-the-art pipelines—\textit{FastSurfer} and \textit{SynthSeg}—both integrated into \textit{FreeSurfer}, one of the most widely adopted tools in neuroimaging. Using two complementary datasets—a 17-year single-subject longitudinal cohort (SIMON) and a 9-site test-retest cohort (SRPBS)—we quantify inter-scan segmentation variability using Dice, Surface Dice, Hausdorff Distance (HD95), and Mean Absolute Percentage Error (MAPE).
+Accurate and reproducible brain morphometry from structural MRI is critical for monitoring neuroanatomical changes across time and imaging domains. Although deep learning has accelerated segmentation workflows, scanner-induced variability and limitations in reproducibility remain—particularly in longitudinal and multi-site settings. In this study, we benchmark two state-of-the-art pipelines—\textit{FastSurfer} and \textit{SynthSeg}—both integrated into \textit{FreeSurfer}, one of the most widely adopted tools in neuroimaging. Using two complementary datasets—a 17-year single-subject longitudinal cohort (SIMON) and a 9-site test-retest cohort (SRPBS)—we quantify inter-scan segmentation variability using Dice, Surface Dice, Hausdorff Distance (HD95), and Mean Absolute Percentage Error (MAPE).
   
-Our results reveal up to 7–8\% volume variation in small subcortical structures such as the amygdala and ventral diencephalon, even under controlled test-retest conditions. This raises a critical question: is it feasible to detect subtle longitudinal changes—on the order of 5–10\%—in pea-sized brain regions, given the magnitude of domain-induced morphometric noise? We further analyze the effects of registration choices and interpolation modes, and propose surface-based quality filtering to improve reliability. This work provides a reproducible benchmark and calls for harmonization strategies to enable robust morphometry in real-world neuroimaging studies.
+Our results reveal up to 7–8\% volume variation in small subcortical structures such as the amygdala and ventral diencephalon, even under controlled test-retest conditions. This raises a critical question: is it feasible to detect subtle, sub-TODO mL, longitudinal changes—in the order of 5–10\%—in pea-sized brain regions, given the magnitude of domain-induced morphometric noise? We further analyze the effects of registration choices and interpolation modes, and propose surface-based quality filtering to improve reliability. This work provides a reproducible benchmark and calls for harmonization strategies to enable robust morphometry in real-world neuroimaging studies.
 
-Our code is available \\ at~\url{https://github.com/kondratevakate/brain-mri-segmentation}
+The benchmark code is available \\ on~\url{https://github.com/kondratevakate/brain-mri-segmentation}
 \end{abstract}
 
 \begin{keywords}
@@ -112,9 +120,9 @@ In healthy populations \cite{papagni2011stress} demonstrated gray matter volume 
 
 \section{Methods}
 
-We study reproducibility of brain MRI segmentation pipelines across longitudinal and multi-site datasets. We use two publicly available datasets—SIMON and SRPBS—spanning a wide range of scanners and protocols. We compare segmentation outputs from FreeSurfer~8.0.0, FastSurfer, and SynthSeg, using FreeSurfer's \texttt{recon-all} pipeline as a reference. Segmentation reproducibility is evaluated using a targeted subset of cortical and subcortical ROIs most relevant for neuroimaging biomarkers. For surface-based comparisons, we apply rigid registration using ANTs and assess the effect of different interpolation modes and reference spaces. Quantitative evaluation is performed using Dice coefficient, Surface Dice, 95th percentile Hausdorff distance (HD95), and mean absolute percentage error (MAPE) of regional brain volumes. 
+We study the reproducibility of brain MRI segmentation pipelines across longitudinal and multi-site datasets. We employ two publicly available datasets—SIMON and SRPBS—spanning a wide range of scanners and protocols. We compare segmentation outputs from FreeSurfer~8.0.0, FastSurfer, and SynthSeg, using FreeSurfer's \texttt{recon-all} pipeline as a reference. Segmentation reproducibility is evaluated using a targeted subset of cortical and subcortical ROIs most relevant for neuroimaging biomarkers. For surface-based comparisons, we apply rigid registration using ANTs and assess the effect of different interpolation modes and reference spaces. Quantitative evaluation is performed using Dice coefficient (DSC), Surface Dice, 95th percentile Hausdorff distance (HD95), and mean absolute percentage error (MAPE) of regional brain volumes. 
 
-\subsection{Data}
+\subsection{Evaluation Data}
 
 We utilized two datasets for our analysis:
 
@@ -122,18 +130,18 @@ We utilized two datasets for our analysis:
 
 \textbf{SRPBS Traveling Subject Dataset:} This dataset includes 411 T1-weighted MRI scans from 9 healthy subjects, each scanned at 9 different sites using 3T MRI scanners. The data is organized following the BIDS format and includes accompanying metadata such as participant demographics and scanner parameters~\citep{tanaka2021multi}.
 
-\subsection{Segmentation} 
+\subsection{Tissue Segmentation} 
 
 We employed FreeSurfer~8.0.0 (released February 27, 2025) for cortical surface reconstruction and anatomical segmentation using the \texttt{recon-all} pipeline. To evaluate segmentation performance, we compared two state-of-the-art deep learning-based methods: FastSurfer~\cite{henschel2020fastsurfer} and SynthSeg~\cite{billot2023synthseg}. FastSurfer offers rapid and accurate whole-brain segmentation, replicating FreeSurfer's anatomical outputs, while SynthSeg provides robust segmentation across varying MRI contrasts and resolutions without the need for retraining. For consistency and comprehensive analysis, we selected FreeSurfer's \texttt{recon-all} outputs as the reference standard and assessed the Desikan-Killiany-Tourville (DKT) atlas parcellations, encompassing 100 cortical and subcortical regions.
 
 \subsection{Registration}
 For surface-based metrics, we applied rigid-body registration using ANTs~\cite{Avants2011}, computing transforms from the original T1-weighted images. We evaluated two interpolation mode \texttt{nearestNeighbor}. Registrations were performed either to the subject's first session or to an asymmetric MRI atlas. This approach aimed to assess the impact of interpolation schemes and reference spaces on the consistency of surface-derived measurements.
 
-\subsection{ROI Analysis}
+\subsection{(Sub-)cortical ROI Analysis}
 
-We focused our analysis on 9 cortical and 8 subcortical bilateral regions of interest (ROIs), selected based on their relevance as biomarkers in neuroimaging studies. The complete list of analyzed ROIs is provided in Table~\ref{tab:roi_list}. Differences observed across successive MRI sessions were interpreted as domain variations. 
+We focused our analysis on 9 cortical and 8 subcortical bilateral regions of interest (ROIs), selected based on their relevance as biomarkers in neuroimaging studies. The complete list of analyzed ROIs is provided in Table~\ref{tab:filtering_subcortical}. Differences observed across successive MRI sessions were interpreted as domain variations. 
 
-\subsection{Metrics}
+\subsection{Tissue Segmentation Evaluation Metrics}
 To evaluate segmentation reproducibility, we report absolute volume differences, as well as spatial similarity metrics: Dice coefficient, Surface Dice, and 95th percentile Hausdorff Distance (HD95). Each metric captures a different aspect of agreement between two segmentations: volumetric overlap, boundary proximity, and outlier misalignment. These are computed for each region of interest (ROI) and aggregated across sessions.
 
 \paragraph{Dice Coefficient (DSC):}
@@ -171,13 +179,13 @@ To compare volumes across repeated scans, we use the mean absolute percentage er
 \end{equation}
 Where $V_i^{\text{pred}}$ and $V_i^{\text{ref}}$ are the predicted and reference volumes for region $i$, and $n$ is the number of ROIs. MAPE is intuitive for assessing how much segmentations deviate from expected anatomical volumes.
 
-\subsection{Computations}
+\subsection{Computation Environment}
         All experiments were conducted on a Google Cloud Platform (GCP) instance equipped with 64~vCPUs and 512~GB of RAM. FreeSurfer~8.0.0 was executed using a single CPU core per subject, with an average processing time of approximately 2 hours per subject. Attempts to utilize GPU acceleration for SynthSeg were unsuccessful due to driver compatibility issues, resulting in all SynthSeg processing being performed on the CPU.
 
         
 
 
-\section{Results}
+\section{Evaluation Results}
 
         \subsection{SRPBS Test-Retest: FastSurfer}
         
@@ -341,7 +349,7 @@ HD95 (mm)           & 1.735 & 1.228 & 1.697 & 1.263 & 1.584 & 1.200 & 1.830 & 1.
 \end{table*}
 
 
-\subsection{Comparison of Distance Metrics Across Datasets}
+\subsection{Comparison of Distance-based Metrics Across Datasets}
 
 Volume differences (in cm³) were consistently higher in SRPBS, reflecting greater domain variability due to inter-scanner effects. In contrast, SIMON—being a single-subject longitudinal dataset—showed lower volume deviations across repeated scans. Dice and Surface Dice scores were uniformly higher in SIMON, indicating improved overlap and surface-level agreement. For example, mean Dice scores for the caudate and putamen reached 0.868 and 0.897 in SIMON, compared to 0.802 and 0.848 in SRPBS. HD95 distances also decreased in SIMON (e.g., 1.234\,mm for hippocampus vs. 1.830\,mm in SRPBS), highlighting reduced boundary inconsistency. These results support the utility of repeated intra-subject data for evaluating segmentation consistency.
 
