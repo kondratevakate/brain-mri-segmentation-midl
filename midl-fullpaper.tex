@@ -453,7 +453,7 @@ Future work should investigate registration-before-segmentation pipelines for ro
 \paragraph{Broader applicability beyond brain MRI segmentation.}
 While we focus on T1-weighted brain MRI segmentation, the proposed benchmark design is broadly applicable to other anatomical segmentation settings (e.g., different organs, other MRI contrasts, or CT), whenever repeated-measurement data are available (traveling-subject, scan--rescan, or longitudinal acquisitions).
 Beyond segmentation, the same repeated-measurement framework can be used as a practical QC instrument to monitor scanner drift and protocol changes over time, and to quantify robustness of downstream modules such as registration, interpolation, and ROI extraction under domain shift.
-Finally, our evaluation protocol can serve as a consistent testbed for comparing harmonization strategies (e.g., feature-level harmonization such as ComBat, image-level normalization, or generative image translation) using the same reproducibility metrics.
+Finally, our evaluation protocol can serve as a consistent testbed for comparing harmonization strategies (e.g., feature-level harmonization such as ComBat~\citep{Fortin2018}, image-level normalization, or generative image translation) using the same reproducibility metrics.
 Adapting the benchmark to a new application primarily requires replacing the ROI/label definitions (atlas) and, where appropriate, adjusting metric tolerances (e.g., surface-distance thresholds) to reflect region size and target anatomy; the core idea of quantifying variability under repeated measurements remains unchanged.
 
 \section*{CRediT authorship contribution statement}
