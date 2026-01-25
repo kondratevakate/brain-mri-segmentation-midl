@@ -104,21 +104,15 @@ Deep learning has significantly advanced individual-level brain morphometry from
     
 Recent versions of FreeSurfer integrate \textit{SynthSeg}~\citep{billot2023synthseg}, a contrast-agnostic segmentation model trained on synthetic data. \textit{SynthSeg} provides robust volumetric estimates across diverse contrasts, resolutions, and scanners. Its compatibility with standard atlases (e.g., Desikan-Killiany, MUSE) makes it suitable for harmonized morphometry across heterogeneous datasets.
 
-To address runtime bottlenecks, \textit{FastSurferVINN}~\citep{henschel2023FastSurfervinn} replaces FreeSurfer’s anatomical stream with a vision transformer-based model, enabling accurate surface-based cortical thickness estimation within minutes. Tools such as Brainchop prioritize clinical scalability, though often at the cost of generalization to unseen protocols.
+To address runtime bottlenecks, \textit{FastSurfer}~\citep{henschel2020fastsurfer} provides a FreeSurfer-compatible alternative using a voxel-size independent convolutional neural network (FastSurferVINN)~\citep{henschel2022fastsurfervinn}, enabling accurate whole-brain segmentation and optional surface-based cortical analysis within minutes. Tools such as Brainchop prioritize clinical scalability, though often at the cost of generalization to unseen protocols.
 
 Other high-performing segmentation models include \textit{nnU-Net}~\citep{isensee2021nnu} and \textit{nnFormer}~(\citep{zhou2023nnformer}), which yield excellent accuracy in controlled benchmarks but often require dataset-specific finetuning to generalize effectively in clinical or real-world settings.
-
-Recent segmentation advances also include multi-atlas deep learning pipelines~\citep{wang2025multiatlas}, which integrate lifespan-spanning templates to enhance anatomical precision, particularly in pediatric and geriatric cohorts.
 
 \subsection{Longitudinal Modeling and Individualized Morphometry}
 
 The reproducibility of brain segmentation directly impacts downstream applications that rely on longitudinal morphometric stability, including disease progression modeling, normative deviation detection, and biological age estimation. Without consistent volumetric measurements across scans, even sophisticated longitudinal models risk misinterpreting noise as biological change, undermining clinical utility in personalized monitoring.
 
-Beyond segmentation, recent work has focused on modeling spatiotemporal brain changes at the individual level. \textit{Latent diffusion-based progression modeling}, such as Brain Latent Progression (BLP)~\citep{puglisi2025blp}, uses temporally conditioned diffusion models to infer personalized disease trajectories from serial MRI scans.
-    
-\textit{Learning-based Inference of Brain Change (LIBC)}~\citep{kim2025libc} models smooth morphometric changes over time using neural timeline embeddings, capturing subtle age- and disease-related progression in cortical and subcortical structures.
-
-Normative modeling frameworks \citep{allen2024normative} enable the estimation of z-score deviations from large-scale population references. This approach is particularly effective in identifying early deviations in psychiatric populations and supports both clinical and subclinical applications.
+Normative modeling frameworks enable the estimation of z-score deviations from large-scale population references. This approach is particularly effective in identifying early deviations in psychiatric populations and supports both clinical and subclinical applications~\citep{marquand2016understanding}.
 
 Another widely adopted line of work focuses on brain age prediction. \textit{BrainAGE}~\citep{franke2012brainage} models estimate biological aging based on MRI-derived morphometric features, frequently using \textit{FreeSurfer} outputs. These models have demonstrated strong longitudinal reliability and clinical interpretability.
 
@@ -330,7 +324,7 @@ Table~\ref{tab:segmentation_subcortical_full} compares FreeSurfer and FastSurfer
     \centering
     \includegraphics[width=\columnwidth]{images/simon_fs8_hippo_amyg_time.png}
     \caption{SIMON dataset: Volume trajectories of Amygdala and Hippocampus over time for 73 MRI scans in 17 years for one healthy individual using FreeSurfer8. Confidence intervals and regression trends are shown.}
-    \label{fig:synthseg_regression}
+    \label{fig:fs8_regression}
 \end{figure}
 
 
@@ -430,7 +424,7 @@ While recent work in brain MRI segmentation has focused on speed, automation, an
 % \subsubsection{No Longitudinal analysis}
 % In this study we treat all the sessions independantly and not use \texttt{--long} pipeline in FreeSurfer.
 
-\paragraph{Preprocessing and Augmentation.} We processed raw data without denoising, intensity normalization, or augmentation to isolate the effect of domain shift. Although this reflects practical variability, it limits reproducibility. It has been shown that classical preprocessing techniques, such as intensity normalization and histogram matching, do not consistently improve brain tumor segmentation performance across different domains. This limitation underscores the challenges posed by domain shifts in medical imaging. However, recent advancements in generative methods, including those utilizing generative adversarial networks (GANs), offer promising avenues to address these challenges. For instance, methods like M-GenSeg employ semi-supervised generative training strategies for cross-modality tumor segmentation, demonstrating improved generalization across diverse imaging modalities \cite{alefsende2022m}. Additionally, approaches that integrate GANs for synthesizing multi-modal images have been explored to enhance training data diversity and robustness \cite{gan2023multi}.
+\paragraph{Preprocessing and Augmentation.} We processed raw data without denoising, intensity normalization, or augmentation to isolate the effect of domain shift. Although this reflects practical variability, it limits reproducibility. It has been shown that classical preprocessing techniques, such as intensity normalization and histogram matching, do not consistently improve brain tumor segmentation performance across different domains. This limitation underscores the challenges posed by domain shifts in medical imaging. However, recent advancements in generative methods, including those utilizing generative adversarial networks (GANs), offer promising avenues to address these challenges. For instance, methods like M-GenSeg employ semi-supervised generative training strategies for cross-modality tumor segmentation, demonstrating improved generalization across diverse imaging modalities~\cite{alefsende2022m}.
 
 \paragraph{Ground Truth Labels.} Both SRPBS and SIMON datasets lack manual annotations, preventing true accuracy assessment. We evaluated reproducibility under the assumption that anatomical structures remain stable in healthy subjects.
 
