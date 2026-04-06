@@ -49,13 +49,15 @@
 \Name{Ekaterina Kondrateva\nametag{$^{1,2}$}} \orcid{0000-0003-3623-6106} \Email{ekaterina.kondrateva@maastrichtuniversity.nl}\\
 \Name{Abdalla Z Mohamed\nametag{$^{3}$}} \orcid{0000-0003-4499-672X}\\
 \Name{Sandzhi Barg\nametag{$^{4}$}} \orcid{0009-0002-6498-0282} \\% \Email{sabarg@edu.hse.ru}\\
-\Name{Florian Kofler\nametag{$^{5,6}$}} \orcid{0000-0003-0642-7884}\\
-\addr $^{1}$ Maastricht University (UM), The Netherlands\\
-\addr $^{2}$ Atelic LLC, UAE\\
+\Name{Florian Kofler\nametag{$^{5,6,7, 8}$}} \orcid{0000-0003-0642-7884}\\
+\addr $^{1}$ Department of Radiation Oncology (Maastro), GROW Research Institute for Oncology and Reproduction, Maastricht University Medical Centre+, Maastricht University, Maastricht, The Netherlands\\
+\addr $^{2}$ Atelic AI, UAE\\
 \addr $^{3}$ Department of Cognitive Sciences, College of Humanities and Social Sciences, United Arab Emirates University, UAE\\
 \addr $^{4}$ Higher School of Economics (HSE), Russia\\
-\addr $^{5}$ University of T\"ubingen, Germany\\
-\addr $^{6}$ Hertie Institute for AI in Brain Health, Germany
+\addr $^{5}$ Hertie Institute for AI in Brain Health, University of Tübingen, Tübingen, Germany\\
+\addr $^{6}$ Department of Quantitative Biomedicine, University of Zurich, Zurich, Switzerland \\
+\addr $^{7}$ Helmholtz AI, Helmholtz Munich, Neuherberg, Germany \\
+\addr $^{8}$ AI for Image-Guided Diagnosis and Therapy, TUM School of Medicine and Health, Technical University of Munich, Munich, Germany \\
 }
 
 
@@ -120,7 +122,7 @@ Emerging tools like \textit{Neurofind}~\citep{neurofind2025} offer user-friendly
 
 Despite these advances, challenges remain in achieving sulcal-level surface precision, quantifying uncertainty, and ensuring reproducibility in real-world multisite studies. Although morphometry has clear clinical applications (e.g., in epilepsy and dementia\footnote{\url{https://icometrix.com/expertise\#mri}}), rigorous longitudinal reproducibility benchmarks remain scarce.
 
-\subsection{Brain morpometry as a biomarker}
+\subsection{Brain morphometry as a biomarker}
 
 Longitudinal MRI studies have greatly expanded our understanding of how brain morphometry changes over time, particularly in response to aging, disease, and stress. A growing body of work highlights structural biomarkers in specific brain regions—especially the hippocampus, anterior cingulate, and prefrontal cortex—that reflect vulnerability or resilience to neuropsychiatric conditions.
 
@@ -147,7 +149,7 @@ Figure~\ref{fig:qualitative_srpbs} provides a representative qualitative example
   \label{fig:qualitative_srpbs}
 \end{figure}
 
-Because both datasets consist of healthy participants and include repeat acquisitions with short inter-scan intervals (SRPBS: consecutive-day traveling-subject scans; SIMON: repeated acquisitions of the same subject), we follow common practice in structural MRI test--retest studies and treat true anatomical change over such intervals as negligible compared to acquisition- and pipeline-induced variability. Therefore, in the absence of voxel-wise manual ground truth, we interpret agreement metrics as measures of reproducibility/consistency rather than absolute accuracy~\citep{Iscan2015,Han2006,Jovicich2009,Reuter2012}.
+Because both datasets consist of healthy participants and include repeat acquisitions with short inter-scan intervals (SRPBS: consecutive-day traveling-subject scans; SIMON: repeated acquisitions of the same subject), we follow common practice in structural MRI test--retest studies and treat true anatomical change over such intervals as negligible compared to acquisition- and pipeline-induced variability. Therefore, in the absence of voxel-wise manual annotations, we interpret agreement metrics as measures of reproducibility/consistency rather than absolute accuracy~\citep{Iscan2015,Han2006,Jovicich2009,Reuter2012}.
 
 \subsection{Segmentation pipelines}
 
@@ -432,7 +434,7 @@ While recent work in brain MRI segmentation has focused on speed, automation, an
 % \subsubsection{No Longitudinal analysis}
 % In this study we treat all the sessions independantly and not use \texttt{--long} pipeline in FreeSurfer.
 
-\paragraph{Ground Truth Labels.} Both SRPBS and SIMON datasets lack manual annotations, preventing true accuracy assessment. We evaluated reproducibility under the assumption that anatomical structures remain stable in healthy subjects.We use FreeSurfer \texttt{recon-all} as a \emph{reference label space} (not as ground truth) to enable like-for-like ROI definitions and surface-based morphometry across pipelines. In the absence of manual voxel-wise annotations, our evaluation targets \emph{reproducibility/consistency} rather than absolute accuracy, and conclusions are based on relative variability patterns across ROIs and sites.
+\paragraph{Reference Annotations.} Both SRPBS and SIMON datasets lack manual annotations, preventing true accuracy assessment [TODO cite https://arxiv.org/abs/2301.00243 ]. We evaluated reproducibility under the assumption that anatomical structures remain stable in healthy subjects. We use FreeSurfer \texttt{recon-all} as a \emph{reference label space} (not as ground truth) to enable like-for-like ROI definitions and surface-based morphometry across pipelines. In the absence of manual voxel-wise annotations, our evaluation targets \emph{reproducibility/consistency} rather than absolute accuracy, and conclusions are based on relative variability patterns across ROIs and sites.
 
 A further limitation is that the available datasets are not ideal for isolating scanner effects: SRPBS provides a traveling-subject design but includes only nine subjects, and SIMON is a single-subject longitudinal dataset. These small sample sizes limit statistical power and may reduce the generalizability of conclusions about inter-scanner and longitudinal variability patterns.
 
@@ -443,7 +445,7 @@ A further limitation is that the available datasets are not ideal for isolating 
 
 
 \subsection{Future Directions}
-1. Software, model, and configuration combinations for robustness. Systematically evaluate robustness-oriented “pipelines of pipelines” rather than single tools: FreeSurfer or FastSurfer and more combined with alternative skull-stripping, intensity standardization, and surface/cortical post-processing choices, and quantify which combinations reduce variability without sacrificing anatomical plausibility. In particular, test inference-time strategies such as test-time augmentation , uncertainty-based filtering, and consensus or ensemble labeling to stabilize ROI estimates across scanners and sessions.
+1. Software, model, and configuration combinations for robustness. Systematically evaluate robustness-oriented “pipelines of pipelines” rather than single tools: FreeSurfer or FastSurfer and more combined with alternative skull-stripping, intensity standardization, and surface/cortical post-processing choices, and quantify which combinations reduce variability without sacrificing anatomical plausibility. In particular, test inference-time strategies such as test-time augmentation, uncertainty-based filtering, and consensus or ensemble labeling to stabilize ROI estimates across scanners and sessions.
 
 2. Extend the benchmark to include low-field scanner acquisitions, where SNR, bias fields, motion, and resolution differ substantially from standard research-grade protocols. This would enable stress-testing segmentation robustness under realistic clinical constraints and help identify which methods and QC thresholds remain reliable when acquisition quality is degraded or highly variable.
 
@@ -464,9 +466,13 @@ Adapting the benchmark to a new application primarily requires replacing the ROI
 \noindent
 During the preparation of this work, the authors used ChatGPT5.2 to improve the readability of this paper. After using this tool, the authors reviewed and edited the content as needed and take full responsibility for the content of the publication.
 
-\midlacknowledgments{This work was supported by our genuine enthusiasm and curiosity and our hope for a brighter future of objective brain health diagnosis. 
-We thank  Mikhail Vasiliev for help with data visualization (see Appendix A). 
-We also acknowledge support from the Google Cloud Research Credits Program (research credits provided for this project).}
+\midlacknowledgments{This work was supported by Anna Valentina Lioba Eleonora Claire Javid Mamasani and the Gemeinnützige Hertie Stiftung.
+
+We thank Martin Reuter (DZNE) and Thomas Kirk (Quantified Imaging) for their invaluable comments on the preprint version.
+
+We thank Mikhail Vasiliev for help with data visualization (see Appendix A).
+
+This material is based upon work supported by the Google Cloud Research Credits program under award GCP19980904.}
 \clearpage
 
 \bibliography{midl-samplebibliography}
@@ -561,7 +567,7 @@ Our analysis reveals that universal Surface Dice thresholds may be inappropriate
 \centering
 % \includegraphics[width=0.6\linewidth, height=.2\textheight]{images/consecutive_fs8_SIMON_dice_surface_dice.pdf}
 \includegraphics[width=\textwidth]{images/consecutive_fs8_SIMON_dice_surface_dice.pdf}
-\caption{Dice and Surface Dice  distributions across cortical regions in the left and right hemispheres of the SIMON dataset using FreeSurfer. Each structure is evaluated over multiple longitudinal scans from the same individual. Surface Dice (white boxes) consistently exceeds traditional Dice (gray boxes), especially in regions with complex geometry such as the entorhinal cortex and insula.}
+\caption{Dice and Surface Dice distributions across cortical regions in the left and right hemispheres of the SIMON dataset using FreeSurfer. Each structure is evaluated over multiple longitudinal scans from the same individual. Surface Dice (white boxes) consistently exceeds traditional Dice (gray boxes), especially in regions with complex geometry such as the entorhinal cortex and insula.}
 \end{figure*}
 
 \end{document}
