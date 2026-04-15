@@ -145,7 +145,7 @@ Figure~\ref{fig:qualitative_srpbs} provides a representative qualitative example
   \centering
   \includegraphics[width=0.975\linewidth]{images/seg1.png}\par\vspace{4pt}
   \includegraphics[width=\linewidth]{images/seg2.png}
-  \caption{Representative qualitative example from the SRPBS Traveling Subject dataset (Subject~1; four sites/scanners; consecutive-day acquisitions). \textbf{Top:} T1-weighted scans of the same subject acquired on different scanners/sites, illustrating scanner/protocol-induced appearance differences (same anatomical slice; consistent display settings). All scans were rigidly registered to the first acquisition, and FreeSurfer \texttt{recon-all} label maps were co-registered accordingly; after \texttt{recon-all} conforming, images share the same voxel grid (size and spacing). \textbf{Bottom:} FreeSurfer outputs overlaid as contours derived from a binarized full-parcellation mask. Dice overlap values (range $[0,1]$) are shown between adjacent acquisitions to summarize cross-scanner segmentation consistency. \textbf{Take-home message:} even when anatomy is held constant and scans are aligned to a common space, scanner/protocol changes visibly alter image appearance and reduce segmentation agreement.}
+  \caption{Representative qualitative example from the SRPBS Traveling Subject dataset (Subject~1; four sites/scanners; consecutive-day acquisitions). \textbf{Top:} T1-weighted scans of the same subject acquired on different scanners/sites, illustrating scanner/protocol-induced appearance differences (same anatomical slice; consistent display settings). All scans were rigidly registered to the first acquisition, and FreeSurfer \texttt{recon-all} label maps were co-registered accordingly; after \texttt{recon-all} conforming, images share the same voxel grid (size and spacing). \textbf{Bottom:} FreeSurfer outputs overlaid as contours derived from a binarized full-parcellation mask. Dice overlap values (range $[0,1]$) are shown between adjacent acquisitions to summarize cross-scanner segmentation consistency. Even when anatomy is held constant and scans are aligned to a common space, scanner/protocol changes visibly alter image appearance and reduce segmentation agreement.}
   \label{fig:qualitative_srpbs}
 \end{figure}
 
@@ -156,7 +156,7 @@ Because both datasets consist of healthy participants and include repeat acquisi
 \begin{figure*}[h]
 \centering
 \includegraphics[width=\textwidth]{images/workflow (1).png}
-\caption{High-level overview of the benchmarking pipeline. The workflow evaluates the reproducibility of FreeSurfer and FastSurfer using the longitudinal SIMON dataset and the multi-site SRPBS traveling-subject dataset. All outputs are mapped to a common ROI space and compared with spatial and volumetric metrics while varying registration and interpolation choices. \textbf{Take-home message:} the benchmark is designed to isolate pipeline-, scanner-, and post-processing-induced variability from true biological change.}
+\caption{High-level overview of the benchmarking pipeline. The workflow evaluates the reproducibility of FreeSurfer and FastSurfer using the longitudinal SIMON dataset and the multi-site SRPBS traveling-subject dataset. All outputs are mapped to a common ROI space and compared with spatial and volumetric metrics while varying registration and interpolation choices. The benchmark is designed to isolate pipeline-, scanner-, and post-processing-induced variability from true biological change.}
 \end{figure*}
 
 We employed FreeSurfer~8.0.0 for cortical surface reconstruction and anatomical segmentation using the \texttt{recon-all} pipeline. To evaluate segmentation performance, we compared two state-of-the-art deep learning-based methods: FastSurfer~\cite{Henschel2020FastSurfer} and SynthSeg~\cite{Billot2023SynthSeg}. FastSurfer offers rapid and accurate whole-brain segmentation, replicating FreeSurfer's anatomical outputs, while SynthSeg provides robust segmentation across varying MRI contrasts and resolutions without the need for retraining. For consistency and comprehensive analysis, we selected FreeSurfer's \texttt{recon-all} outputs as the common baseline and assessed the Desikan-Killiany-Tourville (DKT) atlas parcellations, encompassing 100 cortical and subcortical regions.
@@ -238,7 +238,7 @@ This highlights that even in a highly controlled test-retest design, inter-scann
 \centering
 \includegraphics[width=\linewidth]{images/srpbs_sub-01_pipelines_hippo_amyg.png}
 
-\caption{Volume estimates for left and right hippocampus and amygdala across 15 scans of the same traveling subject in the SRPBS dataset (sub-01), processed with FastSurfer, FreeSurfer 8, and longitudinal FreeSurfer 8 with creation of the unbiased template. Each point corresponds to one session; the shaded region marks the first five scans acquired on a single scanner (days 1--6), whereas the remaining sessions were collected at different sites. \textbf{Take-home message:} within-scanner repeat scans are tightly clustered, but cross-site acquisitions introduce much larger spread, especially in the amygdala, showing that scanner effects can approach the size of subtle longitudinal change.}
+\caption{Volume estimates for left and right hippocampus and amygdala across 15 scans of the same traveling subject in the SRPBS dataset (sub-01), processed with FastSurfer, FreeSurfer 8, and longitudinal FreeSurfer 8 with creation of the unbiased template. Each point corresponds to one session; the shaded region marks the first five scans acquired on a single scanner (days 1--6), whereas the remaining sessions were collected at different sites. Within-scanner repeat scans are tightly clustered, but cross-site acquisitions introduce much larger spread, especially in the amygdala, showing that scanner effects can approach the size of subtle longitudinal change.}
 \label{fig:srpbs_FastSurfer_stability}
 \end{figure*}
 
@@ -326,14 +326,14 @@ Table~\ref{tab:segmentation_subcortical_full} compares FreeSurfer and FastSurfer
 \begin{figure}[ht]
     \centering
     \includegraphics[width=\columnwidth]{images/simon_hippo_amyg_time.png}
-    \caption{SIMON dataset: volume trajectories of the amygdala and hippocampus over time for 73 MRI scans acquired over 17 years in one healthy individual using FastSurfer. Confidence intervals and regression trends are shown. \textbf{Take-home message:} FastSurfer yields comparatively smooth long-term trajectories with modest drift, suggesting that most within-subject variation is small relative to the overall volume scale.}
+    \caption{SIMON dataset: volume trajectories of the amygdala and hippocampus over time for 73 MRI scans acquired over 17 years in one healthy individual using FastSurfer. Confidence intervals and regression trends are shown. FastSurfer yields comparatively smooth long-term trajectories with modest drift, suggesting that most within-subject variation is small relative to the overall volume scale.}
     \label{fig:synthseg_regression}
 \end{figure}
 
 \begin{figure}[ht]
     \centering
     \includegraphics[width=\columnwidth]{images/simon_fs8_hippo_amyg_time.png}
-    \caption{SIMON dataset: volume trajectories of the amygdala and hippocampus over time for 73 MRI scans acquired over 17 years in one healthy individual using FreeSurfer~8. Confidence intervals and regression trends are shown. \textbf{Take-home message:} the inferred longitudinal trend depends on the segmentation software, not only the anatomy: FreeSurfer~8 produces systematically larger estimates and visually broader dispersion than the corresponding FastSurfer trajectories.}
+    \caption{SIMON dataset: volume trajectories of the amygdala and hippocampus over time for 73 MRI scans acquired over 17 years in one healthy individual using FreeSurfer~8. Confidence intervals and regression trends are shown. The inferred longitudinal trend depends on the segmentation software, not only the anatomy: FreeSurfer~8 produces systematically larger estimates and visually broader dispersion than the corresponding FastSurfer trajectories.}
     \label{fig:fs8_regression}
 \end{figure}
 
@@ -468,7 +468,8 @@ Adapting the benchmark to a new application primarily requires replacing the ROI
 \noindent
 During the preparation of this work, the authors used ChatGPT5.2 to improve the readability of this paper. After using this tool, the authors reviewed and edited the content as needed and take full responsibility for the content of the publication.
 
-\midlacknowledgments{This work was supported by Anna Valentina Lioba Eleonora Claire Javid Mamasani and the Gemeinnützige Hertie Stiftung.
+\midlacknowledgments{This work was supported by Anna Valentina Lioba Eleonora Claire Javid Mamasani and the Gemeinnützige Hertie Stiftung. 
+Dr. Abdalla Z Mohamed is supported by CHSS internal fund from United Arab Emirates University (Grant ID:12H115).
 
 We thank Martin Reuter (DZNE) and Thomas Kirk (Quantified Imaging) for their invaluable comments on the preprint version.
 
@@ -554,7 +555,7 @@ Our analysis reveals that universal Surface Dice thresholds may be inappropriate
 \centering
 %\includegraphics[width=0.7\linewidth, height=.3\textheight]{images/consecutive_fs8_SIMON_percentage_vol_diff.pdf}
 \includegraphics[width=\textwidth]{images/consecutive_fs8_SIMON_percentage_vol_diff.pdf}
-\caption{Inter-scanner variability of cortical volumes in the SIMON dataset. Boxplots show the percentage difference from the structure-specific mean across repeated sessions, grouped by hemisphere. \textbf{Take-home message:} cortical volume reproducibility is strongly region-dependent, with some regions showing much wider spread and outliers than others, so a single global QC threshold is unlikely to be sufficient.}
+\caption{Inter-scanner variability of cortical volumes in the SIMON dataset. Boxplots show the percentage difference from the structure-specific mean across repeated sessions, grouped by hemisphere. Cortical volume reproducibility is strongly region-dependent, with some regions showing much wider spread and outliers than others, so a single global QC threshold is unlikely to be sufficient.}
 \end{figure*}
 
 
@@ -562,14 +563,14 @@ Our analysis reveals that universal Surface Dice thresholds may be inappropriate
 \centering
 %\includegraphics[width=0.6\linewidth, height=.2\textheight]{latex/vox.jpg}
 \includegraphics[width=\textwidth]{images/cortical_all_sub_session_metrics_dice_surface_dice.pdf}
-\caption{Inter-scanner variability of cortical overlap metrics in the SIMON dataset. Boxplots show Dice and Surface Dice between repeated scans, grouped by hemisphere. \textbf{Take-home message:} overlap remains generally high, but reliability is not uniform across cortical regions or hemispheres, which motivates region-aware QC rather than assuming all structures are equally stable.}
+\caption{Inter-scanner variability of cortical overlap metrics in the SIMON dataset. Boxplots show Dice and Surface Dice between repeated scans, grouped by hemisphere. Overlap remains generally high, but reliability is not uniform across cortical regions or hemispheres, which motivates region-aware QC rather than assuming all structures are equally stable.}
 \end{figure*}
 
 \begin{figure*}[h]
 \centering
 % \includegraphics[width=0.6\linewidth, height=.2\textheight]{images/consecutive_fs8_SIMON_dice_surface_dice.pdf}
 \includegraphics[width=\textwidth]{images/consecutive_fs8_SIMON_dice_surface_dice.pdf}
-\caption{Dice and Surface Dice distributions across cortical regions in the left and right hemispheres of the SIMON dataset using FreeSurfer. Each structure is evaluated over multiple longitudinal scans from the same individual. Surface Dice (white boxes) consistently exceeds traditional Dice (gray boxes), especially in regions with complex geometry such as the entorhinal cortex and insula. \textbf{Take-home message:} a surface-aware criterion is less punitive than standard Dice and better separates minor boundary jitter from clear segmentation failures, making it a more informative QC signal for cortical morphometry.}
+\caption{Dice and Surface Dice distributions across cortical regions in the left and right hemispheres of the SIMON dataset using FreeSurfer. Each structure is evaluated over multiple longitudinal scans from the same individual. Surface Dice (white boxes) consistently exceeds traditional Dice (gray boxes), especially in regions with complex geometry such as the entorhinal cortex and insula. A surface-aware criterion is less punitive than standard Dice and better separates minor boundary jitter from clear segmentation failures, making it a more informative QC signal for cortical morphometry.}
 \end{figure*}
 
 \end{document}
