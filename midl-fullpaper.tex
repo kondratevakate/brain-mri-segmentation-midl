@@ -5,13 +5,12 @@
 % ifoddpage, relsize and probably more
 % make sure they are installed with your latex distribution
 
-\usepackage{mwe} % to get dummy images
 \usepackage{booktabs} 
 \usepackage{multirow}
-\jmlrvolume{-- Under Review}
+\jmlrvolume{-- nnn}
 \jmlryear{2026}
-\jmlrworkshop{Full Paper -- MIDL 2026 submission}
-\editors{Under Review for MIDL 2026}
+\jmlrworkshop{Full Paper -- MIDL 2026}
+\editors{Accepted for publication at MIDL 2026}
 
 \title[Benchmarking Brain Tissue Segmentation Across MRI Scanners]{Benchmarking the Reproducibility of Brain Tissue Segmentation Across MRI Scanners}
 
@@ -54,7 +53,7 @@
 \addr $^{2}$ Atelic AI, UAE\\
 \addr $^{3}$ Department of Cognitive Sciences, College of Humanities and Social Sciences, United Arab Emirates University, UAE\\
 \addr $^{4}$ Higher School of Economics (HSE), Russia\\
-\addr $^{5}$ Hertie Institute for AI in Brain Health, University of Tübingen, Tübingen, Germany\\
+\addr $^{5}$ Hertie Institute for AI in Brain Health, University of T{\"u}bingen, T{\"u}bingen, Germany\\
 \addr $^{6}$ Department of Quantitative Biomedicine, University of Zurich, Zurich, Switzerland \\
 \addr $^{7}$ Helmholtz AI, Helmholtz Munich, Neuherberg, Germany \\
 \addr $^{8}$ AI for Image-Guided Diagnosis and Therapy, TUM School of Medicine and Health, Technical University of Munich, Munich, Germany \\
@@ -66,37 +65,37 @@
 \maketitle
 
 \begin{abstract}
-% Accurate and reproducible brain morphometry from structural MRI is critical for monitoring neuroanatomical changes across time and imaging domains. Although deep learning has accelerated segmentation workflows, scanner-induced variability and limitations in reproducibility remain—particularly in longitudinal and multi-site settings. In this study, we benchmark two state-of-the-art pipelines—\textit{FastSurfer} and \textit{SynthSeg}—both integrated into \textit{FreeSurfer}, one of the most widely adopted tools in neuroimaging. Using two complementary datasets—a 17-year single-subject longitudinal cohort (SIMON) and a 9-site test-retest cohort (SRPBS)—we quantify inter-scan segmentation variability using Dice, Surface Dice, Hausdorff Distance (HD95), and Mean Absolute Percentage Error (MAPE).
+% Accurate and reproducible brain morphometry from structural MRI is critical for monitoring neuroanatomical changes across time and imaging domains. Although deep learning has accelerated segmentation workflows, scanner-induced variability and limitations in reproducibility remain---particularly in longitudinal and multi-site settings. In this study, we benchmark two state-of-the-art pipelines---\textit{FastSurfer} and \textit{SynthSeg}---both integrated into \textit{FreeSurfer}, one of the most widely adopted tools in neuroimaging. Using two complementary datasets---a 17-year single-subject longitudinal cohort (SIMON) and a 9-site test-retest cohort (SRPBS)---we quantify inter-scan segmentation variability using Dice, Surface Dice, Hausdorff Distance (HD95), and Mean Absolute Percentage Error (MAPE).
   
-% Our results reveal up to 7–8\% volume variation in small subcortical structures such as the amygdala and ventral diencephalon, even under controlled test-retest conditions. This raises a critical question: is it feasible to detect subtle longitudinal changes—in the order of 5–10\%—in small brain regions (< 2ml), given the magnitude of domain-induced morphometric noise? We further analyze the effects of registration choices and interpolation modes, and propose surface-based quality filtering to improve reliability. This work provides a reproducible benchmark and calls for harmonization strategies to enable robust morphometry in real-world neuroimaging studies.
+% Our results reveal up to 7--8\% volume variation in small subcortical structures such as the amygdala and ventral diencephalon, even under controlled test-retest conditions. This raises a critical question: is it feasible to detect subtle longitudinal changes---in the order of 5--10\%---in small brain regions (< 2ml), given the magnitude of domain-induced morphometric noise? We further analyze the effects of registration choices and interpolation modes, and propose surface-based quality filtering to improve reliability. This work provides a reproducible benchmark and calls for harmonization strategies to enable robust morphometry in real-world neuroimaging studies.
 
 % The benchmark code is available \\ on~\url{https://github.com/kondratevakate/brain-mri-segmentation}
 
 
-Accurate and reproducible brain morphometry from structural magnetic resonance imaging is critical for monitoring neuroanatomical changes across time and imaging domains. Although deep learning has accelerated segmentation workflows, scanner-induced variability and limited reproducibility remain major obstacles, particularly in longitudinal and multi-site studies. In this study, we benchmark two state-of-the-art segmentation pipelines, \textit{FastSurfer} and \textit{SynthSeg}, integrated into \textit{FreeSurfer}, one of the most widely adopted neuroimaging tools. Using two complementary datasets—a 17-year single-subject longitudinal cohort and a nine-site test--retest cohort—we quantify between-scan segmentation variability with region-wise overlap and distance measures, including the Dice similarity coefficient, surface Dice, the 95th percentile of the Hausdorff distance, and the mean absolute percentage error in regional volumes.
+Accurate and reproducible brain morphometry from structural magnetic resonance imaging is critical for monitoring neuroanatomical changes across time and imaging domains. Although deep learning has accelerated segmentation workflows, scanner-induced variability and limited reproducibility remain major obstacles, particularly in longitudinal and multi-site studies. In this study, we benchmark two state-of-the-art segmentation pipelines, \textit{FastSurfer} and \textit{SynthSeg}, integrated into \textit{FreeSurfer}, one of the most widely adopted neuroimaging tools. Using two complementary datasets---a 17-year single-subject longitudinal cohort and a nine-site test--retest cohort---we quantify between-scan segmentation variability with region-wise overlap and distance measures, including the Dice similarity coefficient, surface Dice, the 95th percentile of the Hausdorff distance, and the mean absolute percentage error in regional volumes.
 
 Our results reveal up to 7--8\% variation in the volumes of small subcortical structures such as the amygdala and ventral diencephalon, even under controlled test--retest conditions. This level of noise raises a critical question: can we reliably detect subtle longitudinal changes of 5--10\% in small brain regions with volumes below 2~milliliters, given the magnitude of scanner- and site-induced morphometric variability? We further analyze how registration choices and interpolation modes contribute additional, although smaller, biases, and we show that surface-based quality filtering can remove outlier segmentations while preserving most scans and maintaining morphometric stability. This work provides a reproducible benchmark of modern FreeSurfer-based segmentation pipelines and highlights the need for harmonization and quality-control strategies to enable robust morphometry in real-world neuroimaging studies.
 
-The code is available
-on~\url{github.com/kondratevakate/brain-mri-segmentation}
+The code is publicly available
+on~\url{https://github.com/kondratevakate/brain-mri-segmentation}
 
 
 \end{abstract}
 
 \begin{keywords}
-Machine Learning, Brain Morphometry, MRI, Multi-Scanner Variability, Dice, FreeSurfer, SynthSeg, Segmentation, Statistics, Test Retes, Domain Shift
+Machine Learning, Brain Morphometry, MRI, Multi-Scanner Variability, Dice, FreeSurfer, SynthSeg, Segmentation, Statistics, Test-Retest, Domain Shift
 \end{keywords}
 
 \section{Introduction}
 
 
-Advances in AI-driven medical imaging have revolutionized pathology detection, yet reproducible morphometric analysis of healthy brains—especially across scanners and over time—remains a challenge. This gap limits our ability to monitor individual brain health trajectories and detect early pathological changes. While artificial intelligence (AI) has significantly advanced medical imaging, particularly in pathology segmentation tasks such as tumor identification in the BraTS challenge~\cite{menze2015multimodal}, there remains a notable gap in applying these advancements to morphometric analyses of healthy brains across varied domains. This underexplored area presents opportunities for developing robust, generalizable AI models that can accurately capture subtle anatomical variations, thereby deepening insight into brain aging and development.
+Advances in AI-driven medical imaging have revolutionized pathology detection, yet reproducible morphometric analysis of healthy brains---especially across scanners and over time---remains a challenge. This gap limits our ability to monitor individual brain health trajectories and detect early pathological changes. While artificial intelligence (AI) has significantly advanced medical imaging, particularly in pathology segmentation tasks such as tumor identification in the BraTS challenge~\cite{menze2015multimodal}, there remains a notable gap in applying these advancements to morphometric analyses of healthy brains across varied domains. This underexplored area presents opportunities for developing robust, generalizable AI models that can accurately capture subtle anatomical variations, thereby deepening insight into brain aging and development.
 
 
 
 Traditional tools like FreeSurfer~\citep{Fischl2012FS} have been instrumental in providing detailed morphometric analyses of brain structures' volume, cortical surface area, and thickness. Recent integrations, such as SynthSeg~\citep{Billot2023SynthSeg}, offer contrast-agnostic segmentation capabilities trained on synthetic data, aiming to improve generalizability across different imaging protocols. In parallel, FastSurfer~\citep{Henschel2020FastSurfer} emerged as a deep learning-based alternative to the traditional FreeSurfer pipeline, utilizing convolutional neural networks trained on real FreeSurfer-labeled data to achieve significantly faster processing times while maintaining comparable accuracy. Unlike SynthSeg's domain-randomization approach with synthetic training data, FastSurfer leverages supervised learning on anatomically labeled T1-weighted images, making it well-suited for standard clinical protocols but potentially less robust to imaging variations. Despite these advancements, challenges persist in ensuring reproducibility of volumetric estimates under real-world conditions, particularly when dealing with data from multiple scanners and protocols.
 
-This study aims to assess the consistency of brain volume measurements using FastSurefer and FreeSurfer 8 with integrated SynthSeg across longitudinal MRI scans from a single individual. By quantifying inter-scan variability using metrics like absolute volume difference, Dice, and Surface Dice, we seek to highlight the limitations of current segmentation pipelines in personalized brain health monitoring and early detection of neurodegenerative conditions.
+This study aims to assess the consistency of brain volume measurements using FastSurfer and FreeSurfer 8 with integrated SynthSeg across longitudinal MRI scans from a single individual. By quantifying inter-scan variability using metrics like absolute volume difference, Dice, and Surface Dice, we seek to highlight the limitations of current segmentation pipelines in personalized brain health monitoring and early detection of neurodegenerative conditions.
 
 
 \section{Related Works}
@@ -124,7 +123,7 @@ Despite these advances, challenges remain in achieving sulcal-level surface prec
 
 \subsection{Brain Morphometry as a Biomarker}
 
-Longitudinal MRI studies have greatly expanded our understanding of how brain morphometry changes over time, particularly in response to aging, disease, and stress. A growing body of work highlights structural biomarkers in specific brain regions—especially the hippocampus, anterior cingulate, and prefrontal cortex—that reflect vulnerability or resilience to neuropsychiatric conditions.
+Longitudinal MRI studies have greatly expanded our understanding of how brain morphometry changes over time, particularly in response to aging, disease, and stress. A growing body of work highlights structural biomarkers in specific brain regions---especially the hippocampus, anterior cingulate, and prefrontal cortex---that reflect vulnerability or resilience to neuropsychiatric conditions.
 
 In healthy populations \cite{papagni2011stress} demonstrated gray matter volume (GMV) reductions in the anterior cingulate cortex (ACC), hippocampus, and medial prefrontal cortex (mPFC) in individuals exposed to stress. Similar findings were confirmed in large-scale aging studies, including \cite{schaefer2018longitudinal}, who reported consistent hippocampal atrophy associated with aging. \citet{macdonald2021mri} provide a broader review of region-specific atrophy across the lifespan. Structural biomarkers also inform psychiatric research. \citet{cardoner2024impact} review evidence of stress-induced degeneration in the ACC and dorsolateral prefrontal cortex (dlPFC), while \citet{carnevali2018resilience} identify preserved amygdala volumes as potential resilience markers. UK Biobank analyses further support longitudinal volume reductions in fronto-limbic circuits among individuals with high stress exposure~\citep{statsenko2022brain}. Importantly, several studies have examined structural changes within individuals undergoing therapy. \citet{gryglewski2019ect} found hippocampal and amygdalar volume increases after electroconvulsive therapy (ECT) in treatment-resistant depression. \citet{furtado2012tms} reported volumetric growth in the dlPFC after rTMS. \citet{frodl2008gmd} showed that psychotherapy attenuated gray matter loss over three years in depression. Together, these findings suggest that MRI-based brain morphometry, especially when assessed longitudinally, provides meaningful biomarkers for brain health across both normative and pathological aging.
 
@@ -155,13 +154,14 @@ Because both datasets consist of healthy participants and include repeat acquisi
 
 \begin{figure*}[h]
 \centering
+
 \includegraphics[width=\textwidth]{images/workflow (1).png}
 \caption{High-level overview of the benchmarking pipeline. The workflow evaluates the reproducibility of FreeSurfer and FastSurfer using the longitudinal SIMON dataset and the multi-site SRPBS traveling-subject dataset. All outputs are mapped to a common ROI space and compared with spatial and volumetric metrics while varying registration and interpolation choices. The benchmark is designed to isolate pipeline-, scanner-, and post-processing-induced variability from true biological change.}
 \end{figure*}
 
 We employed FreeSurfer~8.0.0 for cortical surface reconstruction and anatomical segmentation using the \texttt{recon-all} pipeline. To evaluate segmentation performance, we compared two state-of-the-art deep learning-based methods: FastSurfer~\cite{Henschel2020FastSurfer} and SynthSeg~\cite{Billot2023SynthSeg}. FastSurfer offers rapid and accurate whole-brain segmentation, replicating FreeSurfer's anatomical outputs, while SynthSeg provides robust segmentation across varying MRI contrasts and resolutions without the need for retraining. For consistency and comprehensive analysis, we selected FreeSurfer's \texttt{recon-all} outputs as the common baseline and assessed the Desikan-Killiany-Tourville (DKT) atlas parcellations, encompassing 100 cortical and subcortical regions.
 
-\paragraph{Preprocessing and input standardization.} To maximize reproducibility and avoid introducing study-specific choices, we intentionally did not apply additional external preprocessing (e.g., custom intensity normalization) beyond each pipeline’s default processing. In prior work on tumor segmentation, the choice of segmentation pipeline was reported to have a negligible effect on segmentation accuracy~\cite{kondrateva2024negligible}. FreeSurfer recon-all includes its canonical internal conforming and intensity processing as part of the standard workflow~\citep{Fischl2012FS}. SynthSeg is trained via domain randomization to be robust to wide variations in contrast, resolution, noise and bias fields, and is designed to operate without requiring dedicated preprocessing~\citep{Billot2023SynthSeg}.
+\paragraph{Preprocessing and input standardization.} To maximize reproducibility and avoid introducing study-specific choices, we intentionally did not apply additional external preprocessing (e.g., custom intensity normalization) beyond each pipeline's default processing. In prior work on tumor segmentation, the choice of segmentation pipeline was reported to have a negligible effect on segmentation accuracy~\cite{kondrateva2024negligible}. FreeSurfer recon-all includes its canonical internal conforming and intensity processing as part of the standard workflow~\citep{Fischl2012FS}. SynthSeg is trained via domain randomization to be robust to wide variations in contrast, resolution, noise and bias fields, and is designed to operate without requiring dedicated preprocessing~\citep{Billot2023SynthSeg}.
 
 For surface-based metrics, we applied rigid-body registration using ANTs~\cite{Avants2011}, computing transforms from the original T1-weighted images. We evaluated two interpolation modes: linear and nearest neighbor. Two registration strategies were compared: (1) intra-subject co-registration to the subject's first session for longitudinal alignment, and (2) spatial normalization to an asymmetric MNI atlas. This approach aimed to assess the impact of interpolation schemes and reference space choice on the consistency of surface-derived measurements.
 
@@ -226,11 +226,11 @@ We used a single compute environment for all benchmark experiments, reflecting p
 
 We first report short-interval test--retest findings from the SRPBS traveling-subject dataset to isolate scanner- and site-related variability under minimal expected biological change. We then compare longitudinal behavior in the SIMON dataset and conclude with cross-dataset analyses of overlap, volume reproducibility, and the effects of registration and interpolation choices.
 
-\subsection{SRPBS Test-Retest: FastSurfer}
+\subsection{SRPBS Test--Retest: FastSurfer}
         
 We analyzed 15 sessions from the SRPBS Traveling Subject dataset~\citep{tanaka2021multi} using FastSurfer . As shown in Figure~\ref{fig:srpbs_FastSurfer_stability}, the first five sessions were acquired on the same scanner across five consecutive days, while the remaining sessions involved different scanners and sites.
 
-For both hippocampus and amygdala, volume estimates during the same-scanner phase were highly consistent. For example, left hippocampus volumes ranged narrowly between 4.42–4.44\,cm³ (SD = 0.01), and right amygdala volumes ranged from 1.73–1.75\,cm³ (SD = 0.008). In contrast, sessions from different scanners showed noticeable variability: left hippocampus ranged from 4.16–4.53\,cm³ (SD = 0.10), and right amygdala from 1.50–1.85\,cm³ (SD = 0.11).
+For both hippocampus and amygdala, volume estimates during the same-scanner phase were highly consistent. For example, left hippocampus volumes ranged narrowly between 4.42--4.44\,cm$^3$ (SD = 0.01), and right amygdala volumes ranged from 1.73--1.75\,cm$^3$ (SD = 0.008). In contrast, sessions from different scanners showed noticeable variability: left hippocampus ranged from 4.16--4.53\,cm$^3$ (SD = 0.10), and right amygdala from 1.50--1.85\,cm$^3$ (SD = 0.11).
 
 This highlights that even in a highly controlled test-retest design, inter-scanner variability introduces morphometric noise of up to 10\%, especially in small structures like the amygdala. Reliable quantification in longitudinal or multisite settings requires either harmonization or robust outlier filtering.
 
@@ -248,20 +248,20 @@ We evaluated segmentation reproducibility across 73 sessions over 17 years using
 
 \paragraph{FastSurfer.}
 FastSurfer \texttt{recon-all} failed on 3 sessions and 8 runs. For valid outputs, subcortical volumes were stable:  
-Left/Right Amygdala: $1.93 \pm 0.17$ / $2.10 \pm 0.12$~cm³  
-Left/Right Hippocampus: $4.54 \pm 0.19$ / $4.82 \pm 0.16$~cm³  
-Volume trajectories showed small upward trends ($R^2$ = 0.12–0.26).
+Left/Right Amygdala: $1.93 \pm 0.17$ / $2.10 \pm 0.12$~cm$^3$  
+Left/Right Hippocampus: $4.54 \pm 0.19$ / $4.82 \pm 0.16$~cm$^3$  
+Volume trajectories showed small upward trends ($R^2$ = 0.12--0.26).
 
 \paragraph{FreeSurfer.}
-Subcortical variation averaged 3.1\%, peaking at 15–20\%.  
-Cortical parcellations varied by 5\% on average, with outliers exceeding 40–90\%.  
+Subcortical variation averaged 3.1\%, peaking at 15--20\%.  
+Cortical parcellations varied by 5\% on average, with outliers exceeding 40--90\%.  
 Volumes were consistently higher:  
-Amygdala: $2.13 \pm 0.07$ / $2.22 \pm 0.07$~cm³  
-Hippocampus: $5.10 \pm 0.11$ / $5.18 \pm 0.12$~cm³.
+Amygdala: $2.13 \pm 0.07$ / $2.22 \pm 0.07$~cm$^3$  
+Hippocampus: $5.10 \pm 0.11$ / $5.18 \pm 0.12$~cm$^3$.
 
 Volume comparisons show that FreeSurfer consistently estimates larger volumes than FastSurfer. For example, the left hippocampus volume averaged $5.10 \pm 0.11\,\text{cm}^3$ in FreeSurfer versus $4.54 \pm 0.19\,\text{cm}^3$ in FastSurfer.
 
-Table~\ref{tab:segmentation_subcortical_full} compares FreeSurfer and FastSurfer across eight representative cortical structures. FastSurfer yielded consistently higher Dice scores (e.g., 0.861 vs. 0.793 for Insula, 0.816 vs. 0.728 for Fusiform), suggesting improved anatomical overlap. Surface Dice values remained comparable, with minimal variation between methods. Volume differences were notably smaller in FastSurfer (e.g., 2.0\,mm³ for Insula, compared to 31.6\,mm³ in FreeSurfer), reflecting reduced bias. Interestingly, FreeSurfer produced lower Hausdorff distances in some regions (e.g., Superior Frontal Cortex: 1.21\,mm vs. 1.74\,mm), but at the cost of greater volume deviation. Overall, FastSurfer offers more consistent cortical segmentation while maintaining competitive boundary accuracy.
+Table~\ref{tab:segmentation_subcortical_full} compares FreeSurfer and FastSurfer across eight representative cortical structures. FastSurfer yielded consistently higher Dice scores (e.g., 0.861 vs. 0.793 for Insula, 0.816 vs. 0.728 for Fusiform), suggesting improved anatomical overlap. Surface Dice values remained comparable, with minimal variation between methods. Volume differences were notably smaller in FastSurfer (e.g., 2.0\,mm$^3$ for Insula, compared to 31.6\,mm$^3$ in FreeSurfer), reflecting reduced bias. Interestingly, FreeSurfer produced lower Hausdorff distances in some regions (e.g., Superior Frontal Cortex: 1.21\,mm vs. 1.74\,mm), but at the cost of greater volume deviation. Overall, FastSurfer offers more consistent cortical segmentation while maintaining competitive boundary accuracy.
 
 
 \begin{table*}[t]
@@ -343,7 +343,7 @@ Table~\ref{tab:segmentation_subcortical_full} compares FreeSurfer and FastSurfer
 % \begin{figure}[ht]
 %     \centering
 %     \includegraphics[width=\columnwidth]{images/output2.png}
-%     \caption{SIMON dataset: Comparison of volume distributions from FastSurfer and SynthSeg for Amygdala and Hippocampus, y-axis denotes volume in cm³.}
+%     \caption{SIMON dataset: Comparison of volume distributions from FastSurfer and SynthSeg for Amygdala and Hippocampus, y-axis denotes volume in cm$^3$.}
 %     \label{fig:simon_comparison_boxplot}
 % \end{figure}
 
@@ -361,7 +361,7 @@ Table~\ref{tab:segmentation_subcortical_full} compares FreeSurfer and FastSurfer
 \multirow{2}{*}{Metric} & \multicolumn{2}{c|}{Accumbens} & \multicolumn{2}{c|}{Amygdala} & \multicolumn{2}{c|}{Caudate} & \multicolumn{2}{c|}{Hippocampus} & \multicolumn{2}{c|}{Pallidum} & \multicolumn{2}{c|}{Putamen} & \multicolumn{2}{c|}{Thalamus} & \multicolumn{2}{c}{Ventral DC} \\
  & SRPBS & SIMON & SRPBS & SIMON & SRPBS & SIMON & SRPBS & SIMON & SRPBS & SIMON & SRPBS & SIMON & SRPBS & SIMON & SRPBS & SIMON \\
 \hline  
-Volume diff (cm³)   & 0.046 & 0.030 & 0.102 & 0.076 & 0.119 & 0.098 & 0.207 & 0.125 & 0.102 & 0.095 & 0.206 & 0.136 & 0.450 & 0.374 & 0.219 & 0.141 \\
+Volume diff (cm$^3$)   & 0.046 & 0.030 & 0.102 & 0.076 & 0.119 & 0.098 & 0.207 & 0.125 & 0.102 & 0.095 & 0.206 & 0.136 & 0.450 & 0.374 & 0.219 & 0.141 \\
 Dice                & 0.677 & 0.803 & 0.790 & 0.858 & 0.802 & 0.868 & 0.782 & 0.850 & 0.789 & 0.850 & 0.848 & 0.897 & 0.868 & 0.909 & 0.806 & 0.858 \\
 Surface Dice        & 0.849 & 0.965 & 0.840 & 0.961 & 0.868 & 0.972 & 0.845 & 0.964 & 0.843 & 0.958 & 0.870 & 0.969 & 0.820 & 0.947 & 0.873 & 0.959 \\
 HD95 (mm)           & 1.735 & 1.228 & 1.697 & 1.263 & 1.584 & 1.200 & 1.830 & 1.234 & 1.675 & 1.271 & 1.582 & 1.210 & 1.828 & 1.327 & 1.620 & 1.233 \\
@@ -375,7 +375,7 @@ HD95 (mm)           & 1.735 & 1.228 & 1.697 & 1.263 & 1.584 & 1.200 & 1.830 & 1.
 
 \subsection{Comparison of Distance-based Metrics Across Datasets}
 
-Volume differences (in cm³) were consistently higher in SRPBS, in contrast, SIMON—being a single-subject longitudinal dataset—showed lower volume deviations across repeated scans. Dice and Surface Dice scores were uniformly higher in SIMON, indicating improved overlap and surface-level agreement. For example, mean Dice scores for the caudate and putamen reached 0.868 and 0.897 in SIMON, compared to 0.802 and 0.848 in SRPBS. HD95 distances also decreased in SIMON (e.g., 1.234\,mm for hippocampus vs. 1.830\,mm in SRPBS). These results support the utility of repeated intra-subject data for evaluating segmentation consistency.
+Volume differences (in cm$^3$) were consistently higher in SRPBS. In contrast, SIMON---being a single-subject longitudinal dataset---showed lower volume deviations across repeated scans. Dice and Surface Dice scores were uniformly higher in SIMON, indicating improved overlap and surface-level agreement. For example, mean Dice scores for the caudate and putamen reached 0.868 and 0.897 in SIMON, compared to 0.802 and 0.848 in SRPBS. HD95 distances also decreased in SIMON (e.g., 1.234\,mm for hippocampus vs. 1.830\,mm in SRPBS). These results support the utility of repeated intra-subject data for evaluating segmentation consistency.
 
 Statistical comparison using Mann-Whitney U tests with Benjamini-Hochberg FDR correction confirmed significant differences between SIMON and SRPBS conditions for 89\% of ROI-metric combinations (64/72, $p_{\text{adj}} < 0.05$). Effect sizes were predominantly large (Cliff's $\delta > 0.474$ in 56/72 comparisons), with the most pronounced differences observed for Dice and Surface Dice in cortical regions (e.g., inferior parietal: $\delta = 0.81$--$0.84$; fusiform gyrus: $\delta = 0.74$--$0.80$). These results provide quantitative evidence that cross-scanner variability introduces systematic and substantial degradation in segmentation consistency. 
 
@@ -412,7 +412,7 @@ In contrast, the SRPBS dataset exhibited moderate ICC values (mean ICC = 0.68, r
 These findings underscore a critical distinction: segmentation \textit{overlap} (Dice) and volume \textit{reproducibility} (ICC) capture different aspects of reliability. Cross-scanner variability primarily affects absolute volume quantification rather than anatomical boundary delineation.
 
 \subsection{Registration Strategies and Interpolation Effects}
-To compare surface-based metrics, rigid-body registration was applied using ANTs~\cite{Avants2011}. We tested two interpolation strategies: \texttt{nearestNeighbor} and \\ \texttt{genericLabel}; and two reference spaces: subject-native (first session) and standard MNI atlas. Interpolation mode affected mean volume estimates by up to 1.72\%, while template choice accounted for a smaller 0.07\% deviation.  
+To compare surface-based metrics, rigid-body registration was applied using ANTs~\cite{Avants2011}. We tested two interpolation strategies, \texttt{nearestNeighbor} and \texttt{genericLabel}, and two reference spaces: subject-native (first session) and standard MNI atlas. Interpolation mode affected mean volume estimates by up to 1.72\%, while template choice accounted for a smaller 0.07\% deviation.  
 
 
 
@@ -424,7 +424,7 @@ On the SRPBS Traveling Subject dataset, both tools achieved excellent within-sca
 
 FreeSurfer systematically yielded larger subcortical volumes than FastSurfer (e.g., left hippocampus: 5.10\,cm$^3$ vs. 4.58\,cm$^3$) and showed greater inter-scan variation in cortical regions. Such systematic offsets and differential variability imply that absolute volumes and longitudinal slopes are not directly interchangeable between methods. In practical terms, this reinforces the need for harmonization strategies, method-specific calibration, or stringent quality-control filters in real-world neuroimaging pipelines.
 
-We quantified reliability using a set of complementary overlap and distance-based metrics rather than relying on a single indicator. This multi-metric approach captures distinct aspects of segmentation behaviour, such as boundary stability, volumetric agreement, and sensitivity to outlier scans—and provides a more informative picture of robustness than Dice alone.
+We quantified reliability using a set of complementary overlap and distance-based metrics rather than relying on a single indicator. This multi-metric approach captures distinct aspects of segmentation behaviour, such as boundary stability, volumetric agreement, and sensitivity to outlier scans, and provides a more informative picture of robustness than Dice alone.
 
 While recent work in brain MRI segmentation has focused on speed, automation, and ease of deployment, our results suggest that robustness to scanner and protocol variation remains a primary bottleneck for individualized applications. We release a lightweight, fully reproducible evaluation pipeline on longitudinal and multi-scanner datasets, with the aim of encouraging more transparent and method-agnostic benchmarking of segmentation tools under conditions that approximate real clinical and research use, in line with recent decentralized benchmarking efforts in healthcare AI such as the FeTS challenge~\citep{Zenk2025FeTS}.
 
@@ -447,7 +447,7 @@ A further limitation is that the available datasets are not ideal for isolating 
 
 
 \subsection{Future Directions}
-1. Software, model, and configuration combinations for robustness. Systematically evaluate robustness-oriented “pipelines of pipelines” rather than single tools: FreeSurfer or FastSurfer and more combined with alternative skull-stripping, intensity standardization, and surface/cortical post-processing choices, and quantify which combinations reduce variability without sacrificing anatomical plausibility. In particular, test inference-time strategies such as test-time augmentation, uncertainty-based filtering, and consensus or ensemble labeling to stabilize ROI estimates across scanners and sessions.
+1. Software, model, and configuration combinations for robustness. Systematically evaluate robustness-oriented ``pipelines of pipelines'' rather than single tools: FreeSurfer or FastSurfer and more combined with alternative skull-stripping, intensity standardization, and surface/cortical post-processing choices, and quantify which combinations reduce variability without sacrificing anatomical plausibility. In particular, test inference-time strategies such as test-time augmentation, uncertainty-based filtering, and consensus or ensemble labeling to stabilize ROI estimates across scanners and sessions.
 
 2. Extend the benchmark to include low-field scanner acquisitions, where SNR, bias fields, motion, and resolution differ substantially from standard research-grade protocols. This would enable stress-testing segmentation robustness under realistic clinical constraints and help identify which methods and QC thresholds remain reliable when acquisition quality is degraded or highly variable.
 
@@ -466,10 +466,11 @@ Adapting the benchmark to a new application primarily requires replacing the ROI
 
 \section*{Declaration of Generative AI and AI-assisted technologies in the writing process}
 \noindent
-During the preparation of this work, the authors used ChatGPT5.2 to improve the readability of this paper. After using this tool, the authors reviewed and edited the content as needed and take full responsibility for the content of the publication.
+During the preparation of this work, the authors used ChatGPT to improve the readability of this paper. After using this tool, the authors reviewed and edited the content as needed and take full responsibility for the content of the publication.
 
 \midlacknowledgments{This work was supported by Anna Valentina Lioba Eleonora Claire Javid Mamasani and the Gemeinnützige Hertie Stiftung. 
 Dr. Abdalla Z Mohamed is supported by CHSS internal fund from United Arab Emirates University (Grant ID:12H115).
+
 
 We thank Martin Reuter (DZNE) and Thomas Kirk (Quantified Imaging) for their invaluable comments on the preprint version.
 
@@ -478,7 +479,7 @@ We thank Mikhail Vasiliev for help with data visualization (see Appendix A).
 This material is based upon work supported by the Google Cloud Research Credits program under award GCP19980904.}
 \clearpage
 
-\bibliography{midl-samplebibliography}
+\bibliography{midl26_18}
 
 
 \clearpage
