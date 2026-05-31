@@ -552,5 +552,101 @@ not to produce a nice-looking image but to support a reliable measurement.
 
 ---
 
+---
+
+## UV-anchored Gaussians for brain anatomy: borrowing from multi-view head avatars
+
+Two recent papers solve the mesh-correspondence problem in a way directly
+transferable to the brain anatomy case.
+
+**HeadsUp** (Ntavelis et al., Apple, arXiv:2605.04035, 2026):
+UV-parameterized 3D Gaussians anchored to a neutral head template mesh.
+Gaussian count is decoupled from input view count. An encoder-decoder compresses
+N multi-view images into a compact latent → decodes into Gaussians at fixed UV
+positions on the template.
+
+**MATCH** (Prinzler et al., arXiv:2603.15811, March 2026, code released):
+Feed-forward transformer (0.5 s/frame) predicts Gaussian splat textures in the
+fixed UV layout of a template mesh. Key mechanism: *registration-guided attention*
+— each UV-map token attends exclusively to image tokens depicting its
+corresponding mesh region.
+
+### What transfers to brain MRI (and what does not)
+
+**Transferable:**
+
+| Concept | From | Brain MRI adaptation |
+|---|---|---|
+| UV-anchored Gaussians on template | HeadsUp | Replace head template with FIRST/FreeSurfer atlas per structure (hippocampus, amygdala, thalamus) |
+| Automatic correspondence via UV | HeadsUp | UV(u,v) always addresses the same anatomical location — no SPHARM-PDM required |
+| Σ_⊥ as boundary uncertainty | Both | Gaussian covariance perpendicular to surface normal = uncertainty in boundary location at that point |
+| Registration-guided attention | MATCH | Each anatomical UV-token attends to MRI voxels from its spatial region — natural for multi-contrast fusion (T1, T2, FLAIR) |
+| Encoder: N inputs → latent → Gaussians | HeadsUp | Encode N TTA reconstructions → consensus Gaussian parameters |
+
+**Not transferable:**
+- Rendering / splatting pipeline (not needed: we do not synthesise MRI images)
+- View synthesis (no concept of "novel view" for volumetric MRI)
+- Head-specific geometric prior (replaced by anatomical atlas)
+
+### Why UV anchoring solves the correspondence problem
+
+The obstacle for mesh averaging (Section above) was that marching-cubes meshes
+from different segmentations have no consistent vertex ordering. UV anchoring
+resolves this without complex spherical harmonics:
+
+```
+atlas mesh (e.g. FIRST hippocampus template)
+       ↓
+UV parametrisation: each surface point → (u, v) coordinate
+       ↓
+Gaussian_i at UV(u_i, v_i): position μ_i, covariance Σ_i, opacity α_i
+```
+
+Across N TTA reconstructions, each producing a segmentation mesh registered
+to the same atlas:
+- **μ_UV** = mean boundary position at anatomical location (u,v)
+- **Σ_UV** = covariance of boundary positions = 3D uncertainty ellipsoid
+- **Σ_UV⊥** (component perpendicular to surface normal) = boundary uncertainty
+- **Σ_UV∥** (tangential components) = shape uncertainty
+
+This gives a **spatially-resolved uncertainty map on the anatomy surface**:
+"the boundary of CA1 hippocampus is uncertain by ±0.3 mm; the boundary of
+subiculum is uncertain by ±1.1 mm" — clinically more informative than a
+single CV% per whole structure.
+
+### Full pipeline integrating all components
+
+```
+k-space
+  → N reconstructions (varied method/regularisation)
+  → SynthSeg --post per reconstruction → P_n(x ∈ r)
+  → average probability maps → P_consensus(x ∈ r)
+  → isosurface P=0.5 → consensus mesh
+  → register to FIRST atlas → UV coordinates
+  → fit UV-anchored Gaussians
+  → Σ_UV⊥ = boundary uncertainty map
+  → compare to clean-acquisition reference → information-loss surface
+```
+
+The information-loss boundary (Section 1) is now defined not as a scalar Δ%
+but as a **surface field**: at which anatomical locations does degradation
+cause boundary uncertainty to exceed the physics floor (0.05 mm equivalent)?
+
+### Open question: registration-guided attention for multi-contrast
+
+MATCH's attention mechanism (UV-token ↔ image-region) is directly applicable
+to multi-contrast MRI: instead of N camera views, use T1 / T2 / FLAIR / DWI
+as input channels. Each anatomical UV point attends to the voxels from its
+spatial neighbourhood across all contrasts. This is architecturally cleaner
+than concatenating contrasts as input channels and could be used to train a
+contrast-aware probabilistic atlas.
+
+Whether this architecture can be fine-tuned from the face/head domain to brain
+anatomy (domain adaptation from RGB multi-view to MRI multi-contrast) is an
+open question. The geometric framework (UV template + Gaussian covariance)
+transfers regardless of the input modality.
+
+---
+
 *Pilot data collected on n=1 (self), 3 scanners (GE 3T 2018, Siemens 1.5T 2022,
 Philips 1.5T 2024), SynthSeg robust, FreeSurfer 8.0.0. Scripts in `reprocess_2026/`.*
