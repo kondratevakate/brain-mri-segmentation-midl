@@ -300,7 +300,68 @@ full method matrix above. The following remain open questions:
 
 ---
 
-## Beyond volume scalars: mesh averaging and probabilistic aggregation
+## Beyond volume scalars: probabilistic aggregation and shape models
+
+### What already exists — do not reinvent
+
+**SynthSeg soft volumes (Billot et al. 2023, PMC10154424):**
+The SynthSeg paper itself states: *"hippocampal volumes are computed by summing
+the corresponding soft predictions, thus accounting for segmentation uncertainties
+and, to a certain extent, for partial voluming."* The `--post` flag outputs
+per-voxel probability maps (~0.9 GB/scan, 26 classes, confirmed in FreeSurfer 8).
+This is **not a novelty claim** — it is the intended use. What is missing is TTA
+on top of these soft maps, and their application to the reproducibility question.
+
+**Trautmann et al. 2025 (arXiv:2503.10527):**
+"How Should We Evaluate Uncertainty in Accelerated MRI Reconstruction?"
+University of Sussex. Directly relevant: they apply reconstruction ensembles
+(5–10 members) to accelerated k-space, then run SynthSeg on each reconstruction
+to measure downstream segmentation variance. Key finding: *high SSIM/PSNR does
+not imply stable segmentation volumes* — substantial biases were found for
+specific structures even in high-quality reconstructions. Uncertainty metrics:
+Jacobian determinant variance, volume variation, Hausdorff distance.
+**This is our Experiment B done for reconstruction uncertainty; our contribution
+would be extending it to the information-loss boundary framework and including
+TTA at the segmentation level.**
+
+**Mesh2SSM++ (Iyer, Karanam, Elhabian, arXiv:2502.07145, Feb 2025):**
+Probabilistic framework for unsupervised statistical shape models from surface
+meshes. Learns correspondences without pre-existing shape model; quantifies
+aleatoric uncertainty (inherent data variability). Validated across diverse
+anatomies. **This is the ready-made tool for the probabilistic mesh step** —
+apply to hippocampus/amygdala meshes from TTA segmentations to get a shape
+distribution rather than a volume scalar.
+
+**SPHARM-OT (Oguz et al., SPIE Medical Imaging 2023):**
+Spherical harmonic surface modeling with optimal transport for amygdala shape
+analysis in Alzheimer's disease. Extends classical SPHARM-PDM with better
+spherical parametrization. Representative of the SSM literature for the
+structures we measure.
+
+**Review: Valiuddin et al. 2024 (arXiv:2411.16370, updated 2026):**
+Comprehensive review of Bayesian uncertainty quantification in deep probabilistic
+image segmentation. Four task categories: Observer Variability, Active Learning,
+Model Introspection, Model Generalization. Framework for positioning our work
+relative to the UQ literature.
+
+### What is still missing (our contribution)
+
+None of the above combines:
+1. **K-space degradation** as controlled input perturbation
+2. **Reconstruction ensemble** (multiple recon methods of same k-space)
+3. **Segmentation TTA** (multiple orientations per reconstruction)
+4. **Probability map averaging** (soft aggregation, not argmax)
+5. **Shape model fitting** (Mesh2SSM++ / SPHARM) to the resulting mesh ensemble
+6. **Information-loss boundary** as the unified metric
+
+The closest work (Trautmann 2025) does steps 2+3 but uses hard segmentation and
+focuses on image quality metrics, not the information-loss boundary. The proposed
+framework integrates all six steps into a single reproducibility evaluation
+pipeline.
+
+---
+
+## Probabilistic aggregation: volume → probability map → mesh
 
 Averaging volume scalars (mL) discards spatial information. Two estimates can
 agree on total hippocampal volume while disagreeing on where exactly the boundary
