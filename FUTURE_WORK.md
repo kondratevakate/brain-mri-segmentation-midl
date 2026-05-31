@@ -300,6 +300,91 @@ full method matrix above. The following remain open questions:
 
 ---
 
+## Beyond volume scalars: mesh averaging and probabilistic aggregation
+
+Averaging volume scalars (mL) discards spatial information. Two estimates can
+agree on total hippocampal volume while disagreeing on where exactly the boundary
+runs — a distinction critical for shape-based biomarkers (e.g. CA1 atrophy in
+early Alzheimer's). Two richer aggregation levels are possible.
+
+### Level 1: averaging posterior probability maps
+
+Before hard segmentation (argmax), each method produces per-voxel probabilities:
+P(voxel x ∈ region r) ∈ [0, 1]. SynthSeg exposes these via `--post` (confirmed
+available in FreeSurfer 8; ~0.9 GB per scan for 26 classes at 1 mm³).
+
+Averaging probability maps across TTA reconstructions yields a **consensus
+probability map** — the proper Bayesian combination when models are treated as
+equally-weighted committee members:
+
+```python
+P_consensus(x, r) = mean_k( P_k(x, r) )   # across k TTA variants
+```
+
+From this single object everything else is derived without additional information
+loss:
+
+| Derived quantity | Formula | Advantage over scalar |
+|---|---|---|
+| Expected volume | Σ_x P_consensus(x,r) × vox_vol | Threshold-free, lower variance |
+| Hard segmentation | argmax_r P_consensus(x,r) | More stable boundaries |
+| Boundary mesh | isosurface at P=0.5 | Spatially coherent |
+| Uncertainty map | H(P) = −P log P − (1−P)log(1−P) per voxel | Shows WHERE boundary is uncertain |
+| Volume distribution | vary threshold 0.3–0.7, measure volume | Sensitivity analysis |
+
+The uncertainty map is particularly valuable: it directly shows which parts of
+a structure's boundary are stable across reconstructions (interior voxels,
+P ≈ 1.0) versus uncertain (boundary voxels, P ≈ 0.5). This spatial uncertainty
+profile is a richer QC signal than a single CV% per structure.
+
+**Feasibility now:** run `mri_synthseg --post` on the 9-angle TTA sweep for
+2018. Average the 9 probability maps → consensus map → compare expected volumes
+to argmax volumes → quantify threshold sensitivity. Storage: ~8 GB for 9 scans,
+manageable.
+
+**Inter-method combination caveat:** probability maps from SynthSeg and
+FastSurfer CANNOT be directly averaged — they operate in different atlas spaces
+with different boundary definitions (same bias problem as volumes, now per-voxel).
+Within-method averaging across reconstructions/TTA: valid. Cross-method: invalid
+at the probability level, same as at the volume level.
+
+### Level 2: mesh averaging (cortical surfaces)
+
+For **cortical surfaces**, FreeSurfer and FastSurfer produce meshes in
+correspondence via spherical registration to `fsaverage`. Vertex positions can
+be directly averaged across TTA runs:
+
+```
+vertex_mean(v) = mean_k( vertex_k(v) )        # same topological address
+vertex_std(v)  = std_k( vertex_k(v) )          # per-vertex uncertainty
+```
+
+This gives a **3D uncertainty field on the cortical surface** — in which gyri
+and sulci is the boundary most variable? — rather than a per-lobe CV%.
+
+For **subcortical structures**, meshes generated from different label maps are
+NOT automatically in correspondence (marching cubes gives arbitrary vertex
+ordering). Correspondence requires:
+- Registration to a shape template (FSL FIRST, SPHARM-PDM, ShapeWorks)
+- Or: work at the probability map level and derive meshes from the consensus map
+  (preferred — avoids the correspondence problem entirely)
+
+### Summary: aggregation hierarchy
+
+```
+Probability map  ←  most information, basis for everything
+      ↓
+   Mesh          ←  spatial, needs correspondence for averaging
+      ↓
+   Volume        ←  scalar, what we have now; useful but lossy
+```
+
+The k-space reconstruction ensemble (Experiment A above) should be evaluated
+at the probability map level where possible, with volumes and meshes derived
+from the consensus map rather than averaged independently.
+
+---
+
 ## K-space as the starting point: solving the inter-method bias problem
 
 The multi-method TTA section above identifies a fundamental obstacle: averaging
