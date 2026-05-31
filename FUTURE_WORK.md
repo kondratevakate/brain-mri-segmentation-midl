@@ -649,4 +649,5 @@ transfers regardless of the input modality.
 ---
 
 *Pilot data collected on n=1 (self), 3 scanners (GE 3T 2018, Siemens 1.5T 2022,
-Philips 1.5T 2024), SynthSeg robust, FreeSurfer 8.0.0. Scripts in `reprocess_2026/`.*
+Philips 1.5T 2024), SynthSeg robust, FreeSurfer 8.0.0. Scripts in the tutorial repo
+`your-brain-mri-visualization` (`pipeline/` + `scripts/`).*

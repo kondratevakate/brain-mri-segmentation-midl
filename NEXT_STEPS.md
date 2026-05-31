@@ -1,7 +1,9 @@
 # Next steps — reproducibility follow-up (post-acceptance, for talk + future work)
 
 Paper accepted (MIDL 2026). These items respond to review feedback and prepare a
-planned follow-up study. Processing scripts live in `reprocess_2026/`; outputs +
+planned follow-up study. Processing scripts live in the public tutorial repo
+[`your-brain-mri-visualization`](https://github.com/kondratevakate/your-brain-mri-visualization)
+(`pipeline/` batch layer + `scripts/` single-scan tools); outputs +
 the detailed protocol are in the data folder (not in git — derived volumes).
 
 ## Terminology / correctness fixes to carry into the talk / any revision
@@ -28,7 +30,8 @@ the detailed protocol are in the data folder (not in git — derived volumes).
       `recon-all -all` x3 sessions -> `-base` -> `-long`. Compare cross-sectional
       vs longitudinal variance (the key point: longitudinal shrinks within-subject
       variance). Risk: 2022 (5mm) / 2024 (3D-IR) may fail surface recon — failure
-      is itself a finding. Script: `run_fs_longitudinal.sh`.
+      is itself a finding. Script: `pipeline/run_fs_longitudinal.sh` (in the
+      tutorial repo).
 - [ ] **Exp 3 — FS7.4 atlas vs DL reference table.** Once Exp 2a lands, tabulate
       FS7.4 aseg vs SynthSeg(=FS8) vs FastSurfer for 2018. No extra compute.
 - [ ] **Exp 4 — FastSurfer longitudinal** (second machine). 2024 IR will fail VINN.
