@@ -188,5 +188,97 @@ lost."
 
 ---
 
+---
+
+## Multi-method TTA ensemble: independent errors allow further variance reduction
+
+**Pilot finding (n=1, SynthSeg vs FastSurfer, +3° rotation, 2018 scan):**
+
+The rotation responses of SynthSeg and FastSurfer are nearly **uncorrelated**
+(r = −0.068 across 12 subcortical structures). For 4 of 12 structures the two
+methods move in *opposite* directions under the same rotation — not because one
+is correct, but because their architectures have different orientation sensitivities.
+
+Consequences for ensemble TTA:
+- **Independent errors → ensemble works.** Averaging N independent estimators
+  reduces variance as 1/√N. For two methods: ~30% variance reduction.
+- **Practical estimate:** SynthSeg TTA (9 angles) CV ~1.24%; FastSurfer TTA
+  (pending full sweep) ~1.1%. Combined ensemble: theoretical ~0.87%.
+- **Caveat:** the methods have systematic offsets (e.g. amygdala: SynthSeg 1.71 mL
+  vs FastSurfer 1.47 mL, −14%). The ensemble mean lives in a blended space — valid
+  as a pseudo-reference for the information-loss experiment, but not comparable
+  with single-method literature norms.
+
+**Proposed extension:** sweep the full 9-angle TTA for FastSurfer, compute
+pairwise correlations across all available methods, and identify the minimum
+orthogonal subset (maximum diversity, minimum correlation) that yields the most
+stable ensemble without redundancy.
+
+---
+
+## Which segmenter is best for which anatomy?
+
+A systematic question this paper does not answer: across available tools, which
+achieves the most reproducible estimates for cortical, subcortical, and
+white-matter tract measurements?
+
+### Segmenters to compare
+
+**Subcortical** (hippocampus, amygdala, thalamus, basal ganglia):
+
+| Tool | Approach | Status in this study |
+|---|---|---|
+| SynthSeg (FreeSurfer 8) | DL, contrast/resolution-agnostic | ✅ all 3 scanners |
+| FastSurfer VINN | DL, multi-view CNN | ✅ 2018 (2024 failed: IR contrast) |
+| FreeSurfer 7.4 | Atlas-based (GCA), talairach-registered | ⏳ running (2018) |
+| FIRST (FSL) | Shape + appearance model, subcortical-specific | ❌ not yet run |
+| BrainChop | Browser-based DL, multiple model options | ❌ not yet run |
+
+**Cortical** (thickness, parcellation, volume per lobe):
+
+| Tool | Approach | Status |
+|---|---|---|
+| FreeSurfer 7.4 recon-all | Surface-based, Desikan-Killiany / Destrieux | ⏳ running |
+| FastSurfer surface module | Surface-based, faster than FS | ✅ 2018 (full recon done) |
+| CAT12 (SPM-based) | Voxel-based morphometry + surface | ❌ not yet run |
+| SynthSeg --parc | Cortical parcellation, contrast-agnostic | ❌ not yet run |
+
+**White matter tracts:**
+
+| Tool | Approach | Status |
+|---|---|---|
+| TractSeg (Wasserthal 2018) | DL bundle segmentation from FOD | ❌ requires ≥30-dir DWI |
+| TRACULA (FreeSurfer) | Probabilistic tractography, atlas priors | ❌ requires ≥30-dir DWI |
+| AFQ / pyAFQ | Classical streamline-based bundle extraction | ❌ requires ≥30-dir DWI |
+
+**Note on this dataset:** the 2024 session has DWI (701_dw_ssh.nii.gz, b=800,
+N=2 directions, 5.5 mm slices). This is a clinical screening acquisition —
+insufficient for tractography (minimum ~6 directions required; research-grade
+needs ≥30). Any tract comparison would require a dedicated DWI acquisition.
+
+### What is actually unknown
+
+Published comparisons (e.g. Tustison et al., Wachinger et al.) typically evaluate
+on T1-MPRAGE at 1 mm isotropic. Cross-scanner reproducibility specifically for
+each anatomy type, comparable to our n=1 pilot, has not been reported for the
+full method matrix above. The following remain open questions:
+
+1. **Subcortical reproducibility per method** across 1.5T / 3T / different vendors:
+   does atlas-based (FS7.4) outperform DL (FastSurfer, SynthSeg) when the input
+   diverges from training distribution?
+
+2. **Cortical thickness reproducibility at 5 mm slice thickness** (2022 Siemens):
+   all surface-based methods require near-isotropic input; at 5 mm, only
+   SynthSeg `--parc` is expected to attempt cortical parcellation. What does
+   the information-loss curve look like for cortical vs subcortical?
+
+3. **Optimal ensemble composition:** given pairwise error correlations, what
+   is the minimum set of methods that achieves a stable pseudo-reference?
+   Pilot data suggests SynthSeg + FastSurfer is already near-orthogonal (r ≈ 0);
+   adding an atlas-based method (FS7.4) with a different failure mode
+   (orientation-invariant but morphology-dependent) would further diversify.
+
+---
+
 *Pilot data collected on n=1 (self), 3 scanners (GE 3T 2018, Siemens 1.5T 2022,
 Philips 1.5T 2024), SynthSeg robust, FreeSurfer 8.0.0. Scripts in `reprocess_2026/`.*
