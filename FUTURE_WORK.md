@@ -190,29 +190,47 @@ lost."
 
 ---
 
-## Multi-method TTA ensemble: independent errors allow further variance reduction
+## Multi-method TTA: independent errors but incompatible biases
 
 **Pilot finding (n=1, SynthSeg vs FastSurfer, +3° rotation, 2018 scan):**
 
 The rotation responses of SynthSeg and FastSurfer are nearly **uncorrelated**
 (r = −0.068 across 12 subcortical structures). For 4 of 12 structures the two
-methods move in *opposite* directions under the same rotation — not because one
-is correct, but because their architectures have different orientation sensitivities.
+methods move in *opposite* directions under the same rotation.
 
-Consequences for ensemble TTA:
-- **Independent errors → ensemble works.** Averaging N independent estimators
-  reduces variance as 1/√N. For two methods: ~30% variance reduction.
-- **Practical estimate:** SynthSeg TTA (9 angles) CV ~1.24%; FastSurfer TTA
-  (pending full sweep) ~1.1%. Combined ensemble: theoretical ~0.87%.
-- **Caveat:** the methods have systematic offsets (e.g. amygdala: SynthSeg 1.71 mL
-  vs FastSurfer 1.47 mL, −14%). The ensemble mean lives in a blended space — valid
-  as a pseudo-reference for the information-loss experiment, but not comparable
-  with single-method literature norms.
+However, the methods have **large systematic offsets in absolute volumes**
+(e.g. amygdala: SynthSeg 1.71 mL vs FastSurfer 1.47 mL, −14%; pallidum: +20%).
+These are not noise — they reflect different operational definitions of structure
+boundaries across training atlases. Statistical independence of TTA errors and
+systematic inter-method bias are orthogonal properties:
+
+- Independent errors allow variance reduction *within a method* via TTA.
+- Systematic bias means naively averaging absolute volumes across methods yields
+  a third quantity that does not correspond to either method's definition, and is
+  no closer to ground truth (which does not exist in-vivo without histology).
+
+**What can be meaningfully combined:**
+
+- **Relative changes (Δ%)** rather than absolute volumes. If method M consistently
+  underestimates structure S by a fixed factor, that factor cancels in longitudinal
+  Δ: a true 2%/year atrophy appears as 2%/year in both SynthSeg and FastSurfer.
+  For the information-loss experiment, Δ(θ, X, s) should be computed within one
+  method, not across methods.
+
+- **Consistency of direction** as a binary signal: do both methods agree that the
+  volume increased / decreased / stayed stable? Agreement despite different absolute
+  values is meaningful evidence that the change is real and method-independent.
+
+- **Error correlation structure** as a diagnostic: the near-zero cross-method
+  correlation (r ≈ 0) is itself a finding — the two methods fail differently,
+  meaning their errors are not driven by the same image features. This motivates
+  measuring the full pairwise correlation matrix across all available methods to
+  identify whether there is a common latent failure mode (orientation bias shared
+  by all CNNs) versus method-specific failure modes.
 
 **Proposed extension:** sweep the full 9-angle TTA for FastSurfer, compute
-pairwise correlations across all available methods, and identify the minimum
-orthogonal subset (maximum diversity, minimum correlation) that yields the most
-stable ensemble without redundancy.
+pairwise Δ% correlations across methods (not absolute volumes), and characterise
+the shared vs method-specific components of model instability.
 
 ---
 
