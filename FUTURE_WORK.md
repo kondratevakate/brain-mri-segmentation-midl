@@ -298,5 +298,113 @@ full method matrix above. The following remain open questions:
 
 ---
 
+---
+
+## K-space as the starting point: solving the inter-method bias problem
+
+The multi-method TTA section above identifies a fundamental obstacle: averaging
+segmentation volumes across methods is invalid because systematic inter-method
+biases (e.g. amygdala SynthSeg −14% vs FastSurfer) reflect different boundary
+definitions, not measurement noise. Starting from k-space resolves this by
+changing what is varied.
+
+### Core insight
+
+Different **reconstructions of the same k-space** physically represent the same
+proton distribution. They differ in how acquisition noise, undersampling
+artefacts, and regularisation are handled — not in where anatomical boundaries
+are defined. Segmentations of different reconstructions of the same k-space CAN
+be averaged: the bias problem is absent by construction.
+
+```
+                      ┌─ recon_1 (IFFT)           ─┐
+                      ├─ recon_2 (CS, λ=0.01)      ─┤
+raw k-space ─────────►├─ recon_3 (CS, λ=0.1)       ─┼──► segment each ──► average ──► R_kspace
+                      ├─ recon_4 (DL, e.g. E2E-Var) ─┤
+                      └─ recon_5 (zero-fill)         ─┘
+```
+
+This pseudo-reference R_kspace is strictly more principled than TTA over
+image-space rotations: it averages over reconstruction uncertainty rather than
+orientation sensitivity, and all inputs represent the same physical measurement.
+
+### Experiment A: k-space reconstruction ensemble as pseudo-reference
+
+For each available T1 scan, simulate k-space from the NIfTI image (3D FFT),
+reconstruct with N methods, segment each with single-method TTA, average volumes.
+
+Reconstruction variants to include:
+- Standard IFFT (baseline)
+- Compressed sensing with varying regularisation (λ sweep)
+- Partial Fourier (6/8, 7/8 sampling) + zero-filling
+- Partial Fourier + homodyne / POCS reconstruction
+- Deep learning reconstruction (E2E-VarNet, MoDL) if pre-trained weights available
+
+The spread of segmentation volumes across reconstruction methods isolates
+**reconstruction uncertainty** — a third variance component not captured by
+either the image-space rotation floor or the inter-method comparison.
+
+### Experiment B: k-space degradation + recovery + TTA
+
+K-space degradation has direct physical meaning, unlike image-space rotation:
+
+| K-space operator | Physical analogue | Clinical meaning |
+|---|---|---|
+| Undersampling (R=2×, 4×, 8×) | Parallel imaging acceleration | Can we halve scan time? |
+| K-space noise (σ sweep) | Reduced averages / lower field | Thin slice at 1.5T vs 3T |
+| Outer k-space truncation | Lower matrix size / resolution | 2mm vs 1mm acquisition |
+| Central k-space dropout | Motion artefact simulation | Patient movement |
+| Phase-encode undersampling | Standard GRAPPA trajectory | Common clinical protocol |
+
+For each degradation level θ, apply recovery method X, then TTA-segment:
+
+```
+k_deg(θ) = degrade(k_full, θ)
+R_θ,X    = mean_k( segment( TTA( recon_X(k_deg(θ)) ) ) )
+Δ(θ,X,s) = |R_kspace(s) - R_θ,X(s)| / R_kspace(s)
+```
+
+This gives information-loss curves with **direct protocol-design interpretation**:
+"hippocampal volume is recoverable from R=4× acceleration to within ε%."
+
+### Why this is stronger than image-space rotation
+
+| Property | Image-space rotation | K-space degradation |
+|---|---|---|
+| Physical meaning | Arbitrary transform, no scanner analogue | Direct scanner parameter |
+| Applicable to averaging | No (rotation changes orientation → bias) | Yes (same physics, no boundary bias) |
+| Clinical translation | None direct | Acquisition protocol design |
+| Separates reconstruction vs segmentation noise | No | Yes |
+
+### Practical caveat: simulation vs real k-space
+
+This experiment can be run **retrospectively** (simulate k-space from NIfTI via
+3D FFT) or **prospectively** (acquire raw k-space from scanner).
+
+Retrospective simulation (available now):
+- Simulate k-space from existing NIfTIs via `numpy.fft.fftn`
+- Apply degradation and reconstruct
+- Limitation: missing real coil noise correlations, B0 inhomogeneity, and
+  k-space trajectory effects (EPI, spiral). Results are valid for information
+  content, not for absolute SNR calibration.
+
+Prospective acquisition (higher validity, future work):
+- Request TWIX export (Siemens), PAR/REC raw (Philips), or ScanArchive (GE)
+- Reconstruction toolkits: BART, MRZero, SigPy, PyNUFFT
+- Enables real noise characterisation and cross-vendor k-space comparison
+
+For this paper's dataset: retrospective simulation is immediately possible from
+existing NIfTIs. Real k-space was not exported at acquisition time.
+
+### Relation to reconstruction uncertainty literature
+
+This framework connects to the fastMRI challenge (Knoll et al., 2020) evaluation
+paradigm but extends it: instead of measuring image quality (SSIM, PSNR) as the
+reconstruction target, we use **segmentation consistency** as the downstream
+metric. This is clinically more relevant — the purpose of MRI reconstruction is
+not to produce a nice-looking image but to support a reliable measurement.
+
+---
+
 *Pilot data collected on n=1 (self), 3 scanners (GE 3T 2018, Siemens 1.5T 2022,
 Philips 1.5T 2024), SynthSeg robust, FreeSurfer 8.0.0. Scripts in `reprocess_2026/`.*
